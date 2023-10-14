@@ -46,5 +46,6 @@
     <string name="additional_items">Additional items</string>
     <string name="coke">Coke</string>
     <string name="sprite">Sprite</string>
-    <string name="none">None</string>
+    <string name="none">None</string>\
+    <string name="select_item_quantity">Select item quantity</string>
 </resources>

@@ -17,6 +17,7 @@ package com.example.cupcake
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -30,9 +31,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
@@ -57,6 +56,7 @@ enum class CupcakeScreen(@StringRes val title: Int) {
     Start(title = R.string.app_name),
     Flavor(title = R.string.choose_flavor),
     AdditionalItems(title = R.string.additional_items),
+    SelectItemQuantity(title = R.string.select_item_quantity),
     Pickup(title = R.string.choose_pickup_date),
     Summary(title = R.string.order_summary)
 }
@@ -145,14 +145,32 @@ fun CupcakeApp(
             }
             composable(route = CupcakeScreen.AdditionalItems.name) {
                 val context = LocalContext.current
+                var next by remember { mutableStateOf(CupcakeScreen.Pickup.name) }
+                SelectOptionScreen(
+                    subtotal = uiState.price,
+                    onNextButtonClicked = { navController.navigate(next )},
+                    onCancelButtonClicked = {
+                        cancelOrderAndNavigateToStart(viewModel, navController)
+                    },
+                    options = DataSource.additionalItems.map { id -> context.resources.getString(id) },
+                    onSelectionChanged = {
+                        next=if(it!="None"){CupcakeScreen.SelectItemQuantity.name}else{CupcakeScreen.Pickup.name}
+                        Log.d("test",next)
+                        viewModel.setAdditionalItems(it)
+                    },
+                    modifier = Modifier.fillMaxHeight()
+                )
+            }
+            composable(route = CupcakeScreen.SelectItemQuantity.name) {
                 SelectOptionScreen(
                     subtotal = uiState.price,
                     onNextButtonClicked = { navController.navigate(CupcakeScreen.Pickup.name) },
                     onCancelButtonClicked = {
                         cancelOrderAndNavigateToStart(viewModel, navController)
                     },
-                    options = DataSource.additionalItems.map { id -> context.resources.getString(id) },
-                    onSelectionChanged = { viewModel.setAdditionalItems(it) },
+                    options = DataSource.itemQuantity ,
+                    onSelectionChanged = {
+                        viewModel.setItemQuantity(it) },
                     modifier = Modifier.fillMaxHeight()
                 )
             }

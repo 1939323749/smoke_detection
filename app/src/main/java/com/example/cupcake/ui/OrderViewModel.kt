@@ -15,7 +15,6 @@
  */
 package com.example.cupcake.ui
 
-import android.net.wifi.WifiManager.SubsystemRestartTrackingCallback
 import androidx.lifecycle.ViewModel
 import com.example.cupcake.data.OrderUiState
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -69,10 +68,17 @@ class OrderViewModel : ViewModel() {
 
     fun setAdditionalItems(additionalItem:String){
         _uiState.update { currentState->
-            currentState.copy(additionalItem=additionalItem,
+            currentState.copy(additionalItem=additionalItem)
+        }
+    }
+
+    fun setItemQuantity(itemQuantity: String){
+        _uiState.update { currentState ->
+            currentState.copy(
+                itemQuantity=itemQuantity.toInt(),
                 price = calculatePrice(
                     quantity = currentState.quantity,
-                    additionalItem=additionalItem
+                    itemQuantity=itemQuantity.toInt()
                 )
             )
         }
@@ -103,15 +109,16 @@ class OrderViewModel : ViewModel() {
     private fun calculatePrice(
         quantity: Int = _uiState.value.quantity,
         additionalItem: String = _uiState.value.additionalItem,
-        pickupDate: String = _uiState.value.date
+        pickupDate: String = _uiState.value.date,
+        itemQuantity: Int = _uiState.value.itemQuantity
     ): String {
         var calculatedPrice = quantity * PRICE_PER_CUPCAKE
-        if(additionalItem != "" && additionalItem!="None"){
-            calculatedPrice+=3
-        }
         // If the user selected the first option (today) for pickup, add the surcharge
         if (pickupOptions()[0] == pickupDate) {
             calculatedPrice += PRICE_FOR_SAME_DAY_PICKUP
+        }
+        if(itemQuantity!=0 && additionalItem!="None"){
+            calculatedPrice+=itemQuantity*3
         }
         val formattedPrice = NumberFormat.getCurrencyInstance().format(calculatedPrice)
         return formattedPrice

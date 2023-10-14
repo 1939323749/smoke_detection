@@ -37,4 +37,10 @@ object DataSource {
         R.string.sprite,
         R.string.none
     )
+
+    val itemQuantity = listOf(
+       "1",
+        "2",
+        "3"
+    )
 }
