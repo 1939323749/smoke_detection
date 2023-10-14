@@ -43,4 +43,8 @@
         <item quantity="one">%d cupcake</item>
         <item quantity="other">%d cupcakes</item>
     </plurals>
+    <string name="additional_items">Additional items</string>
+    <string name="coke">Coke</string>
+    <string name="sprite">Sprite</string>
+    <string name="none">None</string>
 </resources>

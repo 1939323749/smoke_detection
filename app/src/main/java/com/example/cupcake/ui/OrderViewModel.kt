@@ -15,6 +15,7 @@
  */
 package com.example.cupcake.ui
 
+import android.net.wifi.WifiManager.SubsystemRestartTrackingCallback
 import androidx.lifecycle.ViewModel
 import com.example.cupcake.data.OrderUiState
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -66,6 +67,17 @@ class OrderViewModel : ViewModel() {
         }
     }
 
+    fun setAdditionalItems(additionalItem:String){
+        _uiState.update { currentState->
+            currentState.copy(additionalItem=additionalItem,
+                price = calculatePrice(
+                    quantity = currentState.quantity,
+                    additionalItem=additionalItem
+                )
+            )
+        }
+    }
+
     /**
      * Set the [pickupDate] for this order's state and update the price
      */
@@ -90,9 +102,13 @@ class OrderViewModel : ViewModel() {
      */
     private fun calculatePrice(
         quantity: Int = _uiState.value.quantity,
+        additionalItem: String = _uiState.value.additionalItem,
         pickupDate: String = _uiState.value.date
     ): String {
         var calculatedPrice = quantity * PRICE_PER_CUPCAKE
+        if(additionalItem != "" && additionalItem!="None"){
+            calculatedPrice+=3
+        }
         // If the user selected the first option (today) for pickup, add the surcharge
         if (pickupOptions()[0] == pickupDate) {
             calculatedPrice += PRICE_FOR_SAME_DAY_PICKUP

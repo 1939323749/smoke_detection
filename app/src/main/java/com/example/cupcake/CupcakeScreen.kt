@@ -56,6 +56,7 @@ import com.example.cupcake.ui.StartOrderScreen
 enum class CupcakeScreen(@StringRes val title: Int) {
     Start(title = R.string.app_name),
     Flavor(title = R.string.choose_flavor),
+    AdditionalItems(title = R.string.additional_items),
     Pickup(title = R.string.choose_pickup_date),
     Summary(title = R.string.order_summary)
 }
@@ -133,12 +134,25 @@ fun CupcakeApp(
                 val context = LocalContext.current
                 SelectOptionScreen(
                     subtotal = uiState.price,
-                    onNextButtonClicked = { navController.navigate(CupcakeScreen.Pickup.name) },
+                    onNextButtonClicked = { navController.navigate(CupcakeScreen.AdditionalItems.name) },
                     onCancelButtonClicked = {
                         cancelOrderAndNavigateToStart(viewModel, navController)
                     },
                     options = DataSource.flavors.map { id -> context.resources.getString(id) },
                     onSelectionChanged = { viewModel.setFlavor(it) },
+                    modifier = Modifier.fillMaxHeight()
+                )
+            }
+            composable(route = CupcakeScreen.AdditionalItems.name) {
+                val context = LocalContext.current
+                SelectOptionScreen(
+                    subtotal = uiState.price,
+                    onNextButtonClicked = { navController.navigate(CupcakeScreen.Pickup.name) },
+                    onCancelButtonClicked = {
+                        cancelOrderAndNavigateToStart(viewModel, navController)
+                    },
+                    options = DataSource.additionalItems.map { id -> context.resources.getString(id) },
+                    onSelectionChanged = { viewModel.setAdditionalItems(it) },
                     modifier = Modifier.fillMaxHeight()
                 )
             }
