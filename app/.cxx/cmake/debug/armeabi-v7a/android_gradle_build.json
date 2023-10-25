@@ -1,0 +1,55 @@
+{
+  "stringTable": {
+    "0": "C:/Users/zhuxiaolei/Downloads/ncnn-android-yolov5-master/app/.cxx/cmake/debug/armeabi-v7a",
+    "1": "--target=armv7-none-linux-androideabi24 --sysroot=C:/Users/zhuxiaolei/AppData/Local/Android/Sdk/ndk/26.1.10909125/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Dyolov5ncnn_EXPORTS -isystem C:/Users/zhuxiaolei/Downloads/ncnn-android-yolov5-master/app/src/main/jni/armeabi-v7a/include/ncnn -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security -fno-limit-debug-info -fPIC -fno-rtti -fno-exceptions"
+  },
+  "buildFiles": [
+    "C:\\Users\\zhuxiaolei\\Downloads\\ncnn-android-yolov5-master\\app\\src\\main\\jni\\armeabi-v7a\\lib\\cmake\\SPIRVTargets-release.cmake",
+    "C:\\Users\\zhuxiaolei\\Downloads\\ncnn-android-yolov5-master\\app\\src\\main\\jni\\armeabi-v7a\\lib\\cmake\\OSDependentTargets.cmake",
+    "C:\\Users\\zhuxiaolei\\Downloads\\ncnn-android-yolov5-master\\app\\src\\main\\jni\\armeabi-v7a\\lib\\cmake\\OGLCompilerTargets-release.cmake",
+    "C:\\Users\\zhuxiaolei\\AppData\\Local\\Android\\Sdk\\ndk\\26.1.10909125\\build\\cmake\\compiler_id.cmake",
+    "C:\\Users\\zhuxiaolei\\Downloads\\ncnn-android-yolov5-master\\app\\src\\main\\jni\\armeabi-v7a\\lib\\cmake\\ncnn\\ncnn.cmake",
+    "C:\\Users\\zhuxiaolei\\Downloads\\ncnn-android-yolov5-master\\app\\src\\main\\jni\\CMakeLists.txt",
+    "C:\\Users\\zhuxiaolei\\AppData\\Local\\Android\\Sdk\\ndk\\26.1.10909125\\build\\cmake\\android.toolchain.cmake",
+    "C:\\Users\\zhuxiaolei\\Downloads\\ncnn-android-yolov5-master\\app\\src\\main\\jni\\armeabi-v7a\\lib\\cmake\\ncnn\\ncnn-release.cmake",
+    "C:\\Users\\zhuxiaolei\\Downloads\\ncnn-android-yolov5-master\\app\\src\\main\\jni\\armeabi-v7a\\lib\\cmake\\ncnn\\ncnnConfig.cmake",
+    "C:\\Users\\zhuxiaolei\\AppData\\Local\\Android\\Sdk\\ndk\\26.1.10909125\\build\\cmake\\platforms.cmake",
+    "C:\\Users\\zhuxiaolei\\Downloads\\ncnn-android-yolov5-master\\app\\src\\main\\jni\\armeabi-v7a\\lib\\cmake\\glslangTargets-release.cmake",
+    "C:\\Users\\zhuxiaolei\\Downloads\\ncnn-android-yolov5-master\\app\\src\\main\\jni\\armeabi-v7a\\lib\\cmake\\glslangTargets.cmake",
+    "C:\\Users\\zhuxiaolei\\AppData\\Local\\Android\\Sdk\\ndk\\26.1.10909125\\build\\cmake\\android-legacy.toolchain.cmake",
+    "C:\\Users\\zhuxiaolei\\Downloads\\ncnn-android-yolov5-master\\app\\src\\main\\jni\\armeabi-v7a\\lib\\cmake\\OGLCompilerTargets.cmake",
+    "C:\\Users\\zhuxiaolei\\Downloads\\ncnn-android-yolov5-master\\app\\src\\main\\jni\\armeabi-v7a\\lib\\cmake\\OSDependentTargets-release.cmake",
+    "C:\\Users\\zhuxiaolei\\Downloads\\ncnn-android-yolov5-master\\app\\src\\main\\jni\\armeabi-v7a\\lib\\cmake\\SPIRVTargets.cmake"
+  ],
+  "cleanCommands": [
+    "C:\\Users\\zhuxiaolei\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe -C \"C:\\Users\\zhuxiaolei\\Downloads\\ncnn-android-yolov5-master\\app\\.cxx\\cmake\\debug\\armeabi-v7a\" clean"
+  ],
+  "buildTargetsCommand": "C:\\Users\\zhuxiaolei\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe -C \"C:\\Users\\zhuxiaolei\\Downloads\\ncnn-android-yolov5-master\\app\\.cxx\\cmake\\debug\\armeabi-v7a\" {LIST_OF_TARGETS_TO_BUILD}",
+  "libraries": {
+    "yolov5ncnn-Debug-armeabi-v7a": {
+      "buildCommand": "C:\\Users\\zhuxiaolei\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe -C \"C:\\Users\\zhuxiaolei\\Downloads\\ncnn-android-yolov5-master\\app\\.cxx\\cmake\\debug\\armeabi-v7a\" yolov5ncnn",
+      "buildType": "debug",
+      "toolchain": "3947800626",
+      "abi": "armeabi-v7a",
+      "artifactName": "yolov5ncnn",
+      "files": [
+        {
+          "src": "C:\\Users\\zhuxiaolei\\Downloads\\ncnn-android-yolov5-master\\app\\src\\main\\jni\\yolov5ncnn_jni.cpp",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        }
+      ],
+      "headers": [],
+      "output": "C:\\Users\\zhuxiaolei\\Downloads\\ncnn-android-yolov5-master\\app\\build\\intermediates\\cmake\\debug\\obj\\armeabi-v7a\\libyolov5ncnn.so"
+    }
+  },
+  "toolchains": {
+    "3947800626": {
+      "cppCompilerExecutable": "C:\\Users\\zhuxiaolei\\AppData\\Local\\Android\\Sdk\\ndk\\26.1.10909125\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe"
+    }
+  },
+  "cFileExtensions": [],
+  "cppFileExtensions": [
+    "cpp"
+  ]
+}

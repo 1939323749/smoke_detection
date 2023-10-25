@@ -18,6 +18,9 @@ package com.example.cupcake
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.material3.Button
+import androidx.compose.material3.Surface
+import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
 import com.example.cupcake.ui.theme.CupcakeTheme
 

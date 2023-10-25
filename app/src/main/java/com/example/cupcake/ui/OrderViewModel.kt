@@ -15,6 +15,8 @@
  */
 package com.example.cupcake.ui
 
+import android.content.ContentResolver
+import android.net.Uri
 import androidx.lifecycle.ViewModel
 import com.example.cupcake.data.OrderUiState
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -36,6 +38,10 @@ private const val PRICE_FOR_SAME_DAY_PICKUP = 3.00
  * [OrderViewModel] holds information about a cupcake order in terms of quantity, flavor, and
  * pickup date. It also knows how to calculate the total price based on these order details.
  */
+
+const val SOURCE_FILE=1
+const val SOURCE_CAMERA=2
+
 class OrderViewModel : ViewModel() {
 
     /**
@@ -52,6 +58,22 @@ class OrderViewModel : ViewModel() {
             currentState.copy(
                 quantity = numberCupcakes,
                 price = calculatePrice(quantity = numberCupcakes)
+            )
+        }
+    }
+
+    fun setSource(source: Int) {
+        _uiState.update { currentState ->
+            currentState.copy(
+                source = source
+            )
+        }
+    }
+
+    fun setImage(uri: Uri){
+        _uiState.update { currentState->
+            currentState.copy(
+                uri=uri
             )
         }
     }

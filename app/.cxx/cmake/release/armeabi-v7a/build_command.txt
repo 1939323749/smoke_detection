@@ -1,0 +1,19 @@
+Executable : E:\androidsdk\cmake\3.10.2.4988404\bin\cmake.exe
+arguments : 
+-HC:\Users\zjh\Desktop\ncnn-android-yolov5-master\app\src\main\jni
+-BC:\Users\zjh\Desktop\ncnn-android-yolov5-master\app\.cxx\cmake\release\armeabi-v7a
+-DANDROID_ABI=armeabi-v7a
+-DANDROID_PLATFORM=android-24
+-DCMAKE_LIBRARY_OUTPUT_DIRECTORY=C:\Users\zjh\Desktop\ncnn-android-yolov5-master\app\build\intermediates\cmake\release\obj\armeabi-v7a
+-DCMAKE_BUILD_TYPE=Release
+-DANDROID_NDK=E:\androidsdk\ndk\22.0.7026061
+-DCMAKE_SYSTEM_NAME=Android
+-DCMAKE_ANDROID_ARCH_ABI=armeabi-v7a
+-DCMAKE_SYSTEM_VERSION=24
+-DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+-DCMAKE_ANDROID_NDK=E:\androidsdk\ndk\22.0.7026061
+-DCMAKE_TOOLCHAIN_FILE=E:\androidsdk\ndk\22.0.7026061\build\cmake\android.toolchain.cmake
+-G Ninja
+-DCMAKE_MAKE_PROGRAM=E:\androidsdk\cmake\3.10.2.4988404\bin\ninja.exe
+jvmArgs : 
+

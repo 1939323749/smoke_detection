@@ -21,7 +21,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -63,14 +62,15 @@ fun StartOrderScreen(
             verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_small))
         ) {
             Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_medium)))
-            Image(
-                painter = painterResource(R.drawable.cupcake),
-                contentDescription = null,
-                modifier = Modifier.width(300.dp)
-            )
-            Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_medium)))
+//            Image(
+//                painter = painterResource(R.drawable.cupcake),
+//                contentDescription = null,
+//                modifier = Modifier.width(300.dp)
+//            )
+//            Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_medium)))
             Text(
-                text = stringResource(R.string.order_cupcakes),
+//                text = stringResource(R.string.order_cupcakes),
+                text = "Choose image source",
                 style = MaterialTheme.typography.headlineSmall
             )
             Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_small)))
@@ -116,7 +116,7 @@ fun SelectQuantityButton(
 @Composable
 fun StartOrderPreview(){
     StartOrderScreen(
-        quantityOptions = DataSource.quantityOptions,
+        quantityOptions = DataSource.sourceOptions,
         onNextButtonClicked = {},
         modifier = Modifier.fillMaxSize().padding(dimensionResource(R.dimen.padding_medium))
     )

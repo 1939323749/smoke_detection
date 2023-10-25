@@ -58,13 +58,13 @@ class CupcakeOrderScreenTest {
         // When StartOrderScreen is loaded
         composeTestRule.setContent {
             StartOrderScreen(
-                quantityOptions = DataSource.quantityOptions,
+                quantityOptions = DataSource.sourceOptions,
                 onNextButtonClicked = {}
             )
         }
 
         // Then all the options are displayed on the screen.
-        DataSource.quantityOptions.forEach {
+        DataSource.sourceOptions.forEach {
             composeTestRule.onNodeWithStringId(it.first).assertIsDisplayed()
         }
     }

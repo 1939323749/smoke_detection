@@ -50,7 +50,7 @@ fun OrderSummaryScreen(
     onCancelButtonClicked: () -> Unit,
     onSendButtonClicked: (String, String) -> Unit,
     modifier: Modifier = Modifier
-){
+) {
     val resources = LocalContext.current.resources
 
     val numberOfCupcakes = resources.getQuantityString(
@@ -77,7 +77,14 @@ fun OrderSummaryScreen(
         Pair(stringResource(R.string.flavor), orderUiState.flavor),
         // Summary line 3: display selected pickup date
         Pair(stringResource(R.string.pickup_date), orderUiState.date),
-        Pair(stringResource(R.string.additional_items),orderUiState.additionalItem+if(orderUiState.additionalItem!="None"){"*"+orderUiState.itemQuantity}else{""})
+        Pair(
+            stringResource(R.string.additional_items),
+            orderUiState.additionalItem + if (orderUiState.additionalItem != "None") {
+                "*" + orderUiState.itemQuantity
+            } else {
+                ""
+            }
+        )
     )
 
     Column(
@@ -122,15 +129,4 @@ fun OrderSummaryScreen(
             }
         }
     }
-}
-
-@Preview
-@Composable
-fun OrderSummaryPreview(){
-    OrderSummaryScreen(
-        orderUiState = OrderUiState(0, "Test", "Test", "$300.00"),
-        onSendButtonClicked = { subject: String, summary: String -> },
-        onCancelButtonClicked = {},
-        modifier = Modifier.fillMaxHeight()
-    )
 }

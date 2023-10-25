@@ -26,10 +26,9 @@ object DataSource {
         R.string.coffee
     )
 
-    val quantityOptions = listOf(
-        Pair(R.string.one_cupcake, 1),
-        Pair(R.string.six_cupcakes, 6),
-        Pair(R.string.twelve_cupcakes, 12)
+    val sourceOptions = listOf(
+        Pair(R.string.source_file, 0),
+        Pair(R.string.source_camera, 1),
     )
 
     val additionalItems = listOf(

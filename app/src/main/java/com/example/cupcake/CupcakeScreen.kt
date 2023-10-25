@@ -17,6 +17,7 @@ package com.example.cupcake
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.util.Log
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -32,6 +33,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
@@ -44,16 +46,16 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.cupcake.data.DataSource
 import com.example.cupcake.data.OrderUiState
-import com.example.cupcake.ui.OrderSummaryScreen
-import com.example.cupcake.ui.OrderViewModel
-import com.example.cupcake.ui.SelectOptionScreen
-import com.example.cupcake.ui.StartOrderScreen
+import com.example.cupcake.ui.*
 
 /**
  * enum values that represent the screens in the app
  */
 enum class CupcakeScreen(@StringRes val title: Int) {
     Start(title = R.string.app_name),
+    SourceFile(title = R.string.source_file),
+    SourceCamera(title = R.string.source_camera),
+    Result(title = R.string.result),
     Flavor(title = R.string.choose_flavor),
     AdditionalItems(title = R.string.additional_items),
     SelectItemQuantity(title = R.string.select_item_quantity),
@@ -101,7 +103,7 @@ fun CupcakeApp(
     val currentScreen = CupcakeScreen.valueOf(
         backStackEntry?.destination?.route ?: CupcakeScreen.Start.name
     )
-
+    var uri : Uri?by rememberSaveable { mutableStateOf(null) }
     Scaffold(
         topBar = {
             CupcakeAppBar(
@@ -112,27 +114,72 @@ fun CupcakeApp(
         }
     ) { innerPadding ->
         val uiState by viewModel.uiState.collectAsState()
-
         NavHost(
             navController = navController,
             startDestination = CupcakeScreen.Start.name,
             modifier = Modifier.padding(innerPadding)
         ) {
             composable(route = CupcakeScreen.Start.name) {
+                var next by remember { mutableStateOf(CupcakeScreen.SourceFile.name) }
                 StartOrderScreen(
-                    quantityOptions = DataSource.quantityOptions,
+                    quantityOptions = DataSource.sourceOptions,
                     onNextButtonClicked = {
-                        viewModel.setQuantity(it)
-                        navController.navigate(CupcakeScreen.Flavor.name)
+                        viewModel.setSource(it)
+                        if (it==0){
+                            next=CupcakeScreen.SourceFile.name
+                        }else if (it==1){
+                            next=CupcakeScreen.SourceCamera.name
+                        }
+                        navController.navigate(next)
                     },
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(dimensionResource(R.dimen.padding_medium))
                 )
             }
+            composable(route = CupcakeScreen.SourceFile.name) {
+                val context = LocalContext.current
+                SourceFileScreen(
+                    uri=uiState.uri,
+                    subtotal = uiState.price,
+                    onNextButtonClicked = { navController.navigate(CupcakeScreen.Result.name) },
+                    onCancelButtonClicked = {
+                        cancelOrderAndNavigateToStart(viewModel, navController)
+                    },
+                    options = DataSource.flavors.map { id -> context.resources.getString(id) },
+                    onImageSelected = { viewModel.setImage(it) },
+                    modifier = Modifier.fillMaxHeight()
+                )
+            }
+            composable(route = CupcakeScreen.SourceCamera.name) {
+                val context = LocalContext.current
+                SourceCameraScreen(
+                    imageUri = uiState.uri,
+                    subtotal = uiState.price,
+                    onNextButtonClicked = { navController.navigate(CupcakeScreen.Result.name) },
+                    onCancelButtonClicked = {
+                        cancelOrderAndNavigateToStart(viewModel, navController)
+                    },
+                    options = DataSource.flavors.map { id -> context.resources.getString(id) },
+                    onPhotoShot = { viewModel.setImage(it) },
+                    modifier = Modifier.fillMaxHeight()
+                )
+            }
+            composable(route = CupcakeScreen.Result.name) {
+                val context = LocalContext.current
+                ResultScreen(
+                    imageUri = uiState.uri,
+                    onNextButtonClicked = { },
+                    onCancelButtonClicked = {
+                        cancelOrderAndNavigateToStart(viewModel, navController)
+                    },
+                    modifier = Modifier.fillMaxHeight()
+                )
+            }
             composable(route = CupcakeScreen.Flavor.name) {
                 val context = LocalContext.current
                 SelectOptionScreen(
+                    image = null,
                     subtotal = uiState.price,
                     onNextButtonClicked = { navController.navigate(CupcakeScreen.AdditionalItems.name) },
                     onCancelButtonClicked = {
@@ -147,6 +194,7 @@ fun CupcakeApp(
                 val context = LocalContext.current
                 var next by remember { mutableStateOf(CupcakeScreen.Pickup.name) }
                 SelectOptionScreen(
+                    image = null,
                     subtotal = uiState.price,
                     onNextButtonClicked = { navController.navigate(next )},
                     onCancelButtonClicked = {
@@ -163,6 +211,7 @@ fun CupcakeApp(
             }
             composable(route = CupcakeScreen.SelectItemQuantity.name) {
                 SelectOptionScreen(
+                    image = null,
                     subtotal = uiState.price,
                     onNextButtonClicked = { navController.navigate(CupcakeScreen.Pickup.name) },
                     onCancelButtonClicked = {
@@ -176,6 +225,7 @@ fun CupcakeApp(
             }
             composable(route = CupcakeScreen.Pickup.name) {
                 SelectOptionScreen(
+                    image = null,
                     subtotal = uiState.price,
                     onNextButtonClicked = { navController.navigate(CupcakeScreen.Summary.name) },
                     onCancelButtonClicked = {

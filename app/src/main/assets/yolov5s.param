@@ -1,0 +1,194 @@
+7767517
+192 256
+Input            images                   0 1 images
+YoloV5Focus      focus                    1 1 images input
+Convolution      Conv_41                  1 1 input input.3 0=32 1=3 11=3 2=1 12=1 3=1 13=1 4=1 14=1 15=1 16=1 5=1 6=3456
+ReLU             LeakyRelu_42             1 1 input.3 onnx::Conv_211 0=1.000000e-01
+Convolution      Conv_43                  1 1 onnx::Conv_211 input.7 0=64 1=3 11=3 2=1 12=1 3=2 13=2 4=1 14=1 15=1 16=1 5=1 6=18432
+ReLU             LeakyRelu_44             1 1 input.7 onnx::Conv_213 0=1.000000e-01
+Split            splitncnn_0              1 2 onnx::Conv_213 onnx::Conv_213_splitncnn_0 onnx::Conv_213_splitncnn_1
+Convolution      Conv_45                  1 1 onnx::Conv_213_splitncnn_1 input.11 0=32 1=1 11=1 2=1 12=1 3=1 13=1 4=0 14=0 15=0 16=0 5=1 6=2048
+ReLU             LeakyRelu_46             1 1 input.11 onnx::Conv_215 0=1.000000e-01
+Split            splitncnn_1              1 2 onnx::Conv_215 onnx::Conv_215_splitncnn_0 onnx::Conv_215_splitncnn_1
+Convolution      Conv_47                  1 1 onnx::Conv_215_splitncnn_1 input.15 0=32 1=1 11=1 2=1 12=1 3=1 13=1 4=0 14=0 15=0 16=0 5=1 6=1024
+ReLU             LeakyRelu_48             1 1 input.15 onnx::Conv_217 0=1.000000e-01
+Convolution      Conv_49                  1 1 onnx::Conv_217 input.19 0=32 1=3 11=3 2=1 12=1 3=1 13=1 4=1 14=1 15=1 16=1 5=1 6=9216
+ReLU             LeakyRelu_50             1 1 input.19 onnx::Add_219 0=1.000000e-01
+BinaryOp         Add_51                   2 1 onnx::Conv_215_splitncnn_0 onnx::Add_219 input.23 0=0
+Convolution      Conv_52                  1 1 input.23 onnx::Concat_221 0=32 1=1 11=1 2=1 12=1 3=1 13=1 4=0 14=0 15=0 16=0 5=0 6=1024
+Convolution      Conv_53                  1 1 onnx::Conv_213_splitncnn_0 onnx::Concat_222 0=32 1=1 11=1 2=1 12=1 3=1 13=1 4=0 14=0 15=0 16=0 5=0 6=2048
+Concat           Concat_54                2 1 onnx::Concat_221 onnx::Concat_222 input.27 0=0
+BatchNorm        BatchNormalization_55    1 5 input.27 input.31 225 226 batch_norm_dead_output-346 batch_norm_dead_output-347 0=64
+ReLU             LeakyRelu_56             1 1 input.31 onnx::Conv_229 0=1.000000e-01
+Convolution      Conv_57                  1 1 onnx::Conv_229 input.35 0=64 1=1 11=1 2=1 12=1 3=1 13=1 4=0 14=0 15=0 16=0 5=1 6=4096
+ReLU             LeakyRelu_58             1 1 input.35 onnx::Conv_231 0=1.000000e-01
+Convolution      Conv_59                  1 1 onnx::Conv_231 input.39 0=128 1=3 11=3 2=1 12=1 3=2 13=2 4=1 14=1 15=1 16=1 5=1 6=73728
+ReLU             LeakyRelu_60             1 1 input.39 onnx::Conv_233 0=1.000000e-01
+Split            splitncnn_2              1 2 onnx::Conv_233 onnx::Conv_233_splitncnn_0 onnx::Conv_233_splitncnn_1
+Convolution      Conv_61                  1 1 onnx::Conv_233_splitncnn_1 input.43 0=64 1=1 11=1 2=1 12=1 3=1 13=1 4=0 14=0 15=0 16=0 5=1 6=8192
+ReLU             LeakyRelu_62             1 1 input.43 onnx::Conv_235 0=1.000000e-01
+Split            splitncnn_3              1 2 onnx::Conv_235 onnx::Conv_235_splitncnn_0 onnx::Conv_235_splitncnn_1
+Convolution      Conv_63                  1 1 onnx::Conv_235_splitncnn_1 input.47 0=64 1=1 11=1 2=1 12=1 3=1 13=1 4=0 14=0 15=0 16=0 5=1 6=4096
+ReLU             LeakyRelu_64             1 1 input.47 onnx::Conv_237 0=1.000000e-01
+Convolution      Conv_65                  1 1 onnx::Conv_237 input.51 0=64 1=3 11=3 2=1 12=1 3=1 13=1 4=1 14=1 15=1 16=1 5=1 6=36864
+ReLU             LeakyRelu_66             1 1 input.51 onnx::Add_239 0=1.000000e-01
+BinaryOp         Add_67                   2 1 onnx::Conv_235_splitncnn_0 onnx::Add_239 input.55 0=0
+Split            splitncnn_4              1 2 input.55 input.55_splitncnn_0 input.55_splitncnn_1
+Convolution      Conv_68                  1 1 input.55_splitncnn_1 input.59 0=64 1=1 11=1 2=1 12=1 3=1 13=1 4=0 14=0 15=0 16=0 5=1 6=4096
+ReLU             LeakyRelu_69             1 1 input.59 onnx::Conv_242 0=1.000000e-01
+Convolution      Conv_70                  1 1 onnx::Conv_242 input.63 0=64 1=3 11=3 2=1 12=1 3=1 13=1 4=1 14=1 15=1 16=1 5=1 6=36864
+ReLU             LeakyRelu_71             1 1 input.63 onnx::Add_244 0=1.000000e-01
+BinaryOp         Add_72                   2 1 input.55_splitncnn_0 onnx::Add_244 input.67 0=0
+Split            splitncnn_5              1 2 input.67 input.67_splitncnn_0 input.67_splitncnn_1
+Convolution      Conv_73                  1 1 input.67_splitncnn_1 input.71 0=64 1=1 11=1 2=1 12=1 3=1 13=1 4=0 14=0 15=0 16=0 5=1 6=4096
+ReLU             LeakyRelu_74             1 1 input.71 onnx::Conv_247 0=1.000000e-01
+Convolution      Conv_75                  1 1 onnx::Conv_247 input.75 0=64 1=3 11=3 2=1 12=1 3=1 13=1 4=1 14=1 15=1 16=1 5=1 6=36864
+ReLU             LeakyRelu_76             1 1 input.75 onnx::Add_249 0=1.000000e-01
+BinaryOp         Add_77                   2 1 input.67_splitncnn_0 onnx::Add_249 input.79 0=0
+Convolution      Conv_78                  1 1 input.79 onnx::Concat_251 0=64 1=1 11=1 2=1 12=1 3=1 13=1 4=0 14=0 15=0 16=0 5=0 6=4096
+Convolution      Conv_79                  1 1 onnx::Conv_233_splitncnn_0 onnx::Concat_252 0=64 1=1 11=1 2=1 12=1 3=1 13=1 4=0 14=0 15=0 16=0 5=0 6=8192
+Concat           Concat_80                2 1 onnx::Concat_251 onnx::Concat_252 input.83 0=0
+BatchNorm        BatchNormalization_81    1 5 input.83 input.87 255 256 batch_norm_dead_output-507 batch_norm_dead_output-508 0=128
+ReLU             LeakyRelu_82             1 1 input.87 onnx::Conv_259 0=1.000000e-01
+Convolution      Conv_83                  1 1 onnx::Conv_259 input.91 0=128 1=1 11=1 2=1 12=1 3=1 13=1 4=0 14=0 15=0 16=0 5=1 6=16384
+ReLU             LeakyRelu_84             1 1 input.91 onnx::Conv_261 0=1.000000e-01
+Split            splitncnn_6              1 2 onnx::Conv_261 onnx::Conv_261_splitncnn_0 onnx::Conv_261_splitncnn_1
+Convolution      Conv_85                  1 1 onnx::Conv_261_splitncnn_1 input.95 0=256 1=3 11=3 2=1 12=1 3=2 13=2 4=1 14=1 15=1 16=1 5=1 6=294912
+ReLU             LeakyRelu_86             1 1 input.95 onnx::Conv_263 0=1.000000e-01
+Split            splitncnn_7              1 2 onnx::Conv_263 onnx::Conv_263_splitncnn_0 onnx::Conv_263_splitncnn_1
+Convolution      Conv_87                  1 1 onnx::Conv_263_splitncnn_1 input.99 0=128 1=1 11=1 2=1 12=1 3=1 13=1 4=0 14=0 15=0 16=0 5=1 6=32768
+ReLU             LeakyRelu_88             1 1 input.99 onnx::Conv_265 0=1.000000e-01
+Split            splitncnn_8              1 2 onnx::Conv_265 onnx::Conv_265_splitncnn_0 onnx::Conv_265_splitncnn_1
+Convolution      Conv_89                  1 1 onnx::Conv_265_splitncnn_1 input.103 0=128 1=1 11=1 2=1 12=1 3=1 13=1 4=0 14=0 15=0 16=0 5=1 6=16384
+ReLU             LeakyRelu_90             1 1 input.103 onnx::Conv_267 0=1.000000e-01
+Convolution      Conv_91                  1 1 onnx::Conv_267 input.107 0=128 1=3 11=3 2=1 12=1 3=1 13=1 4=1 14=1 15=1 16=1 5=1 6=147456
+ReLU             LeakyRelu_92             1 1 input.107 onnx::Add_269 0=1.000000e-01
+BinaryOp         Add_93                   2 1 onnx::Conv_265_splitncnn_0 onnx::Add_269 input.111 0=0
+Split            splitncnn_9              1 2 input.111 input.111_splitncnn_0 input.111_splitncnn_1
+Convolution      Conv_94                  1 1 input.111_splitncnn_1 input.115 0=128 1=1 11=1 2=1 12=1 3=1 13=1 4=0 14=0 15=0 16=0 5=1 6=16384
+ReLU             LeakyRelu_95             1 1 input.115 onnx::Conv_272 0=1.000000e-01
+Convolution      Conv_96                  1 1 onnx::Conv_272 input.119 0=128 1=3 11=3 2=1 12=1 3=1 13=1 4=1 14=1 15=1 16=1 5=1 6=147456
+ReLU             LeakyRelu_97             1 1 input.119 onnx::Add_274 0=1.000000e-01
+BinaryOp         Add_98                   2 1 input.111_splitncnn_0 onnx::Add_274 input.123 0=0
+Split            splitncnn_10             1 2 input.123 input.123_splitncnn_0 input.123_splitncnn_1
+Convolution      Conv_99                  1 1 input.123_splitncnn_1 input.127 0=128 1=1 11=1 2=1 12=1 3=1 13=1 4=0 14=0 15=0 16=0 5=1 6=16384
+ReLU             LeakyRelu_100            1 1 input.127 onnx::Conv_277 0=1.000000e-01
+Convolution      Conv_101                 1 1 onnx::Conv_277 input.131 0=128 1=3 11=3 2=1 12=1 3=1 13=1 4=1 14=1 15=1 16=1 5=1 6=147456
+ReLU             LeakyRelu_102            1 1 input.131 onnx::Add_279 0=1.000000e-01
+BinaryOp         Add_103                  2 1 input.123_splitncnn_0 onnx::Add_279 input.135 0=0
+Convolution      Conv_104                 1 1 input.135 onnx::Concat_281 0=128 1=1 11=1 2=1 12=1 3=1 13=1 4=0 14=0 15=0 16=0 5=0 6=16384
+Convolution      Conv_105                 1 1 onnx::Conv_263_splitncnn_0 onnx::Concat_282 0=128 1=1 11=1 2=1 12=1 3=1 13=1 4=0 14=0 15=0 16=0 5=0 6=32768
+Concat           Concat_106               2 1 onnx::Concat_281 onnx::Concat_282 input.139 0=0
+BatchNorm        BatchNormalization_107   1 5 input.139 input.143 285 286 batch_norm_dead_output-668 batch_norm_dead_output-669 0=256
+ReLU             LeakyRelu_108            1 1 input.143 onnx::Conv_289 0=1.000000e-01
+Convolution      Conv_109                 1 1 onnx::Conv_289 input.147 0=256 1=1 11=1 2=1 12=1 3=1 13=1 4=0 14=0 15=0 16=0 5=1 6=65536
+ReLU             LeakyRelu_110            1 1 input.147 onnx::Conv_291 0=1.000000e-01
+Split            splitncnn_11             1 2 onnx::Conv_291 onnx::Conv_291_splitncnn_0 onnx::Conv_291_splitncnn_1
+Convolution      Conv_111                 1 1 onnx::Conv_291_splitncnn_1 input.151 0=512 1=3 11=3 2=1 12=1 3=2 13=2 4=1 14=1 15=1 16=1 5=1 6=1179648
+ReLU             LeakyRelu_112            1 1 input.151 onnx::Conv_293 0=1.000000e-01
+Convolution      Conv_113                 1 1 onnx::Conv_293 input.155 0=256 1=1 11=1 2=1 12=1 3=1 13=1 4=0 14=0 15=0 16=0 5=1 6=131072
+ReLU             LeakyRelu_114            1 1 input.155 onnx::MaxPool_295 0=1.000000e-01
+Split            splitncnn_12             1 4 onnx::MaxPool_295 onnx::MaxPool_295_splitncnn_0 onnx::MaxPool_295_splitncnn_1 onnx::MaxPool_295_splitncnn_2 onnx::MaxPool_295_splitncnn_3
+Pooling          MaxPool_115              1 1 onnx::MaxPool_295_splitncnn_3 onnx::Concat_296 0=0 1=5 11=5 2=1 12=1 3=2 13=2 14=2 15=2 5=1
+Pooling          MaxPool_116              1 1 onnx::MaxPool_295_splitncnn_2 onnx::Concat_297 0=0 1=9 11=9 2=1 12=1 3=4 13=4 14=4 15=4 5=1
+Pooling          MaxPool_117              1 1 onnx::MaxPool_295_splitncnn_1 onnx::Concat_298 0=0 1=13 11=13 2=1 12=1 3=6 13=6 14=6 15=6 5=1
+Concat           Concat_118               4 1 onnx::MaxPool_295_splitncnn_0 onnx::Concat_296 onnx::Concat_297 onnx::Concat_298 input.159 0=0
+Convolution      Conv_119                 1 1 input.159 input.163 0=512 1=1 11=1 2=1 12=1 3=1 13=1 4=0 14=0 15=0 16=0 5=1 6=524288
+ReLU             LeakyRelu_120            1 1 input.163 onnx::Conv_301 0=1.000000e-01
+Split            splitncnn_13             1 2 onnx::Conv_301 onnx::Conv_301_splitncnn_0 onnx::Conv_301_splitncnn_1
+Convolution      Conv_121                 1 1 onnx::Conv_301_splitncnn_1 input.167 0=256 1=1 11=1 2=1 12=1 3=1 13=1 4=0 14=0 15=0 16=0 5=1 6=131072
+ReLU             LeakyRelu_122            1 1 input.167 onnx::Conv_303 0=1.000000e-01
+Convolution      Conv_123                 1 1 onnx::Conv_303 input.171 0=256 1=1 11=1 2=1 12=1 3=1 13=1 4=0 14=0 15=0 16=0 5=1 6=65536
+ReLU             LeakyRelu_124            1 1 input.171 onnx::Conv_305 0=1.000000e-01
+Convolution      Conv_125                 1 1 onnx::Conv_305 input.175 0=256 1=3 11=3 2=1 12=1 3=1 13=1 4=1 14=1 15=1 16=1 5=1 6=589824
+ReLU             LeakyRelu_126            1 1 input.175 onnx::Conv_307 0=1.000000e-01
+Convolution      Conv_127                 1 1 onnx::Conv_307 onnx::Concat_308 0=256 1=1 11=1 2=1 12=1 3=1 13=1 4=0 14=0 15=0 16=0 5=0 6=65536
+Convolution      Conv_128                 1 1 onnx::Conv_301_splitncnn_0 onnx::Concat_309 0=256 1=1 11=1 2=1 12=1 3=1 13=1 4=0 14=0 15=0 16=0 5=0 6=131072
+Concat           Concat_129               2 1 onnx::Concat_308 onnx::Concat_309 input.179 0=0
+BatchNorm        BatchNormalization_130   1 5 input.179 input.183 312 313 batch_norm_dead_output-818 batch_norm_dead_output-819 0=512
+ReLU             LeakyRelu_131            1 1 input.183 onnx::Conv_316 0=1.000000e-01
+Convolution      Conv_132                 1 1 onnx::Conv_316 input.187 0=512 1=1 11=1 2=1 12=1 3=1 13=1 4=0 14=0 15=0 16=0 5=1 6=262144
+ReLU             LeakyRelu_133            1 1 input.187 onnx::Conv_318 0=1.000000e-01
+Convolution      Conv_134                 1 1 onnx::Conv_318 input.191 0=256 1=1 11=1 2=1 12=1 3=1 13=1 4=0 14=0 15=0 16=0 5=1 6=131072
+ReLU             LeakyRelu_135            1 1 input.191 onnx::Resize_320 0=1.000000e-01
+Split            splitncnn_14             1 2 onnx::Resize_320 onnx::Resize_320_splitncnn_0 onnx::Resize_320_splitncnn_1
+Interp           Resize_140               1 1 onnx::Resize_320_splitncnn_1 onnx::Concat_325 0=1 1=2.000000e+00 2=2.000000e+00 3=0 4=0 6=0
+Concat           Concat_141               2 1 onnx::Concat_325 onnx::Conv_291_splitncnn_0 input.195 0=0
+Split            splitncnn_15             1 2 input.195 input.195_splitncnn_0 input.195_splitncnn_1
+Convolution      Conv_142                 1 1 input.195_splitncnn_1 input.199 0=128 1=1 11=1 2=1 12=1 3=1 13=1 4=0 14=0 15=0 16=0 5=1 6=65536
+ReLU             LeakyRelu_143            1 1 input.199 onnx::Conv_328 0=1.000000e-01
+Convolution      Conv_144                 1 1 onnx::Conv_328 input.203 0=128 1=1 11=1 2=1 12=1 3=1 13=1 4=0 14=0 15=0 16=0 5=1 6=16384
+ReLU             LeakyRelu_145            1 1 input.203 onnx::Conv_330 0=1.000000e-01
+Convolution      Conv_146                 1 1 onnx::Conv_330 input.207 0=128 1=3 11=3 2=1 12=1 3=1 13=1 4=1 14=1 15=1 16=1 5=1 6=147456
+ReLU             LeakyRelu_147            1 1 input.207 onnx::Conv_332 0=1.000000e-01
+Convolution      Conv_148                 1 1 onnx::Conv_332 onnx::Concat_333 0=128 1=1 11=1 2=1 12=1 3=1 13=1 4=0 14=0 15=0 16=0 5=0 6=16384
+Convolution      Conv_149                 1 1 input.195_splitncnn_0 onnx::Concat_334 0=128 1=1 11=1 2=1 12=1 3=1 13=1 4=0 14=0 15=0 16=0 5=0 6=65536
+Concat           Concat_150               2 1 onnx::Concat_333 onnx::Concat_334 input.211 0=0
+BatchNorm        BatchNormalization_151   1 5 input.211 input.215 337 338 batch_norm_dead_output-931 batch_norm_dead_output-932 0=256
+ReLU             LeakyRelu_152            1 1 input.215 onnx::Conv_341 0=1.000000e-01
+Convolution      Conv_153                 1 1 onnx::Conv_341 input.219 0=256 1=1 11=1 2=1 12=1 3=1 13=1 4=0 14=0 15=0 16=0 5=1 6=65536
+ReLU             LeakyRelu_154            1 1 input.219 onnx::Conv_343 0=1.000000e-01
+Convolution      Conv_155                 1 1 onnx::Conv_343 input.223 0=128 1=1 11=1 2=1 12=1 3=1 13=1 4=0 14=0 15=0 16=0 5=1 6=32768
+ReLU             LeakyRelu_156            1 1 input.223 onnx::Resize_345 0=1.000000e-01
+Split            splitncnn_16             1 2 onnx::Resize_345 onnx::Resize_345_splitncnn_0 onnx::Resize_345_splitncnn_1
+Interp           Resize_161               1 1 onnx::Resize_345_splitncnn_1 onnx::Concat_350 0=1 1=2.000000e+00 2=2.000000e+00 3=0 4=0 6=0
+Concat           Concat_162               2 1 onnx::Concat_350 onnx::Conv_261_splitncnn_0 input.227 0=0
+Split            splitncnn_17             1 2 input.227 input.227_splitncnn_0 input.227_splitncnn_1
+Convolution      Conv_163                 1 1 input.227_splitncnn_1 input.231 0=64 1=1 11=1 2=1 12=1 3=1 13=1 4=0 14=0 15=0 16=0 5=1 6=16384
+ReLU             LeakyRelu_164            1 1 input.231 onnx::Conv_353 0=1.000000e-01
+Convolution      Conv_165                 1 1 onnx::Conv_353 input.235 0=64 1=1 11=1 2=1 12=1 3=1 13=1 4=0 14=0 15=0 16=0 5=1 6=4096
+ReLU             LeakyRelu_166            1 1 input.235 onnx::Conv_355 0=1.000000e-01
+Convolution      Conv_167                 1 1 onnx::Conv_355 input.239 0=64 1=3 11=3 2=1 12=1 3=1 13=1 4=1 14=1 15=1 16=1 5=1 6=36864
+ReLU             LeakyRelu_168            1 1 input.239 onnx::Conv_357 0=1.000000e-01
+Convolution      Conv_169                 1 1 onnx::Conv_357 onnx::Concat_358 0=64 1=1 11=1 2=1 12=1 3=1 13=1 4=0 14=0 15=0 16=0 5=0 6=4096
+Convolution      Conv_170                 1 1 input.227_splitncnn_0 onnx::Concat_359 0=64 1=1 11=1 2=1 12=1 3=1 13=1 4=0 14=0 15=0 16=0 5=0 6=16384
+Concat           Concat_171               2 1 onnx::Concat_358 onnx::Concat_359 input.243 0=0
+BatchNorm        BatchNormalization_172   1 5 input.243 input.247 362 363 batch_norm_dead_output-1044 batch_norm_dead_output-1045 0=128
+ReLU             LeakyRelu_173            1 1 input.247 onnx::Conv_366 0=1.000000e-01
+Convolution      Conv_174                 1 1 onnx::Conv_366 input.251 0=128 1=1 11=1 2=1 12=1 3=1 13=1 4=0 14=0 15=0 16=0 5=1 6=16384
+ReLU             LeakyRelu_175            1 1 input.251 onnx::Conv_368 0=1.000000e-01
+Split            splitncnn_18             1 2 onnx::Conv_368 onnx::Conv_368_splitncnn_0 onnx::Conv_368_splitncnn_1
+Convolution      Conv_176                 1 1 onnx::Conv_368_splitncnn_1 input.255 0=128 1=3 11=3 2=1 12=1 3=2 13=2 4=1 14=1 15=1 16=1 5=1 6=147456
+ReLU             LeakyRelu_177            1 1 input.255 onnx::Concat_370 0=1.000000e-01
+Concat           Concat_178               2 1 onnx::Concat_370 onnx::Resize_345_splitncnn_0 input.259 0=0
+Split            splitncnn_19             1 2 input.259 input.259_splitncnn_0 input.259_splitncnn_1
+Convolution      Conv_179                 1 1 input.259_splitncnn_1 input.263 0=128 1=1 11=1 2=1 12=1 3=1 13=1 4=0 14=0 15=0 16=0 5=1 6=32768
+ReLU             LeakyRelu_180            1 1 input.263 onnx::Conv_373 0=1.000000e-01
+Convolution      Conv_181                 1 1 onnx::Conv_373 input.267 0=128 1=1 11=1 2=1 12=1 3=1 13=1 4=0 14=0 15=0 16=0 5=1 6=16384
+ReLU             LeakyRelu_182            1 1 input.267 onnx::Conv_375 0=1.000000e-01
+Convolution      Conv_183                 1 1 onnx::Conv_375 input.271 0=128 1=3 11=3 2=1 12=1 3=1 13=1 4=1 14=1 15=1 16=1 5=1 6=147456
+ReLU             LeakyRelu_184            1 1 input.271 onnx::Conv_377 0=1.000000e-01
+Convolution      Conv_185                 1 1 onnx::Conv_377 onnx::Concat_378 0=128 1=1 11=1 2=1 12=1 3=1 13=1 4=0 14=0 15=0 16=0 5=0 6=16384
+Convolution      Conv_186                 1 1 input.259_splitncnn_0 onnx::Concat_379 0=128 1=1 11=1 2=1 12=1 3=1 13=1 4=0 14=0 15=0 16=0 5=0 6=32768
+Concat           Concat_187               2 1 onnx::Concat_378 onnx::Concat_379 input.275 0=0
+BatchNorm        BatchNormalization_188   1 5 input.275 input.279 382 383 batch_norm_dead_output-1150 batch_norm_dead_output-1151 0=256
+ReLU             LeakyRelu_189            1 1 input.279 onnx::Conv_386 0=1.000000e-01
+Convolution      Conv_190                 1 1 onnx::Conv_386 input.283 0=256 1=1 11=1 2=1 12=1 3=1 13=1 4=0 14=0 15=0 16=0 5=1 6=65536
+ReLU             LeakyRelu_191            1 1 input.283 onnx::Conv_388 0=1.000000e-01
+Split            splitncnn_20             1 2 onnx::Conv_388 onnx::Conv_388_splitncnn_0 onnx::Conv_388_splitncnn_1
+Convolution      Conv_192                 1 1 onnx::Conv_388_splitncnn_1 input.287 0=256 1=3 11=3 2=1 12=1 3=2 13=2 4=1 14=1 15=1 16=1 5=1 6=589824
+ReLU             LeakyRelu_193            1 1 input.287 onnx::Concat_390 0=1.000000e-01
+Concat           Concat_194               2 1 onnx::Concat_390 onnx::Resize_320_splitncnn_0 input.291 0=0
+Split            splitncnn_21             1 2 input.291 input.291_splitncnn_0 input.291_splitncnn_1
+Convolution      Conv_195                 1 1 input.291_splitncnn_1 input.295 0=256 1=1 11=1 2=1 12=1 3=1 13=1 4=0 14=0 15=0 16=0 5=1 6=131072
+ReLU             LeakyRelu_196            1 1 input.295 onnx::Conv_393 0=1.000000e-01
+Convolution      Conv_197                 1 1 onnx::Conv_393 input.299 0=256 1=1 11=1 2=1 12=1 3=1 13=1 4=0 14=0 15=0 16=0 5=1 6=65536
+ReLU             LeakyRelu_198            1 1 input.299 onnx::Conv_395 0=1.000000e-01
+Convolution      Conv_199                 1 1 onnx::Conv_395 input.303 0=256 1=3 11=3 2=1 12=1 3=1 13=1 4=1 14=1 15=1 16=1 5=1 6=589824
+ReLU             LeakyRelu_200            1 1 input.303 onnx::Conv_397 0=1.000000e-01
+Convolution      Conv_201                 1 1 onnx::Conv_397 onnx::Concat_398 0=256 1=1 11=1 2=1 12=1 3=1 13=1 4=0 14=0 15=0 16=0 5=0 6=65536
+Convolution      Conv_202                 1 1 input.291_splitncnn_0 onnx::Concat_399 0=256 1=1 11=1 2=1 12=1 3=1 13=1 4=0 14=0 15=0 16=0 5=0 6=131072
+Concat           Concat_203               2 1 onnx::Concat_398 onnx::Concat_399 input.307 0=0
+BatchNorm        BatchNormalization_204   1 5 input.307 input.311 402 403 batch_norm_dead_output-1256 batch_norm_dead_output-1257 0=512
+ReLU             LeakyRelu_205            1 1 input.311 onnx::Conv_406 0=1.000000e-01
+Convolution      Conv_206                 1 1 onnx::Conv_406 input.315 0=512 1=1 11=1 2=1 12=1 3=1 13=1 4=0 14=0 15=0 16=0 5=1 6=262144
+ReLU             LeakyRelu_207            1 1 input.315 onnx::Conv_408 0=1.000000e-01
+Convolution      Conv_208                 1 1 onnx::Conv_368_splitncnn_0 onnx::Reshape_409 0=21 1=1 11=1 2=1 12=1 3=1 13=1 4=0 14=0 15=0 16=0 5=1 6=2688
+Reshape          Reshape_220              1 1 onnx::Reshape_409 onnx::Transpose_421 0=-1 1=7 2=3
+Permute          Transpose_221            1 1 onnx::Transpose_421 output 0=1
+Convolution      Conv_222                 1 1 onnx::Conv_388_splitncnn_0 onnx::Reshape_423 0=21 1=1 11=1 2=1 12=1 3=1 13=1 4=0 14=0 15=0 16=0 5=1 6=5376
+Reshape          Reshape_234              1 1 onnx::Reshape_423 onnx::Transpose_435 0=-1 1=7 2=3
+Permute          Transpose_235            1 1 onnx::Transpose_435 436 0=1
+Convolution      Conv_236                 1 1 onnx::Conv_408 onnx::Reshape_437 0=21 1=1 11=1 2=1 12=1 3=1 13=1 4=0 14=0 15=0 16=0 5=1 6=10752
+Reshape          Reshape_248              1 1 onnx::Reshape_437 onnx::Transpose_449 0=-1 1=7 2=3
+Permute          Transpose_249            1 1 onnx::Transpose_449 450 0=1

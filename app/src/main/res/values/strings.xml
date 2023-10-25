@@ -14,7 +14,10 @@
      limitations under the License.
 -->
 <resources>
-    <string name="app_name">Cupcake</string>
+    <string name="app_name">Smoke</string>
+    <string name="source_file">File</string>
+    <string name="source_camera">Camera</string>
+    <string name="result">Result</string>
     <string name="order_cupcakes">Order Cupcakes</string>
     <string name="one_cupcake">One Cupcake</string>
     <string name="six_cupcakes">Six Cupcakes</string>

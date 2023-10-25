@@ -33,6 +33,9 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+        ndk {
+            moduleName ="ncnn"
+        }
     }
 
     buildTypes {
@@ -58,6 +61,13 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = "1.4.7"
     }
+
+    externalNativeBuild {
+        cmake {
+            version ="3.10.2"
+            path =file("src/main/java/com/example/cupcake/jni/CMakeLists.txt")
+        }
+    }
 }
 
 dependencies {
@@ -82,7 +92,7 @@ dependencies {
     androidTestImplementation("androidx.navigation:navigation-testing:2.6.0")
     androidTestImplementation("androidx.test.espresso:espresso-intents:3.5.1")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
-
+    implementation("io.coil-kt:coil-compose:2.4.0")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
     debugImplementation("androidx.compose.ui:ui-tooling")
 }

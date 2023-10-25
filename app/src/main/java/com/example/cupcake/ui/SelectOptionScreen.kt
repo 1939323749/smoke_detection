@@ -15,6 +15,7 @@
  */
 package com.example.cupcake.ui
 
+import android.media.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -48,7 +49,8 @@ import com.example.cupcake.ui.components.FormattedPriceLabel
  */
 @Composable
 fun SelectOptionScreen(
-    subtotal: String,
+    image: Image?,
+    subtotal: String?,
     options: List<String>,
     onSelectionChanged: (String) -> Unit = {},
     onCancelButtonClicked: () -> Unit = {},
@@ -62,40 +64,41 @@ fun SelectOptionScreen(
         verticalArrangement = Arrangement.SpaceBetween
     ) {
         Column(modifier = Modifier.padding(dimensionResource(R.dimen.padding_medium))){
-            options.forEach { item ->
-                Row(
-                    modifier = Modifier.selectable(
-                        selected = selectedValue == item,
-                        onClick = {
-                            selectedValue = item
-                            onSelectionChanged(item)
-                        }
-                    ),
-                    verticalAlignment = Alignment.CenterVertically
-                ){
-                    RadioButton(
-                        selected = selectedValue == item,
-                        onClick = {
-                            selectedValue = item
-                            onSelectionChanged(item)
-                        }
-                    )
-                    Text(item)
-                }
-            }
-            Divider(
-                thickness = dimensionResource(R.dimen.thickness_divider),
-                modifier = Modifier.padding(bottom = dimensionResource(R.dimen.padding_medium))
-            )
-            FormattedPriceLabel(
-                subtotal = subtotal,
-                modifier = Modifier
-                    .align(Alignment.End)
-                    .padding(
-                        top = dimensionResource(R.dimen.padding_medium),
-                        bottom = dimensionResource(R.dimen.padding_medium)
-                    )
-            )
+//            options.forEach { item ->
+//                Row(
+//                    modifier = Modifier.selectable(
+//                        selected = selectedValue == item,
+//                        onClick = {
+//                            selectedValue = item
+//                            onSelectionChanged(item)
+//                        }
+//                    ),
+//                    verticalAlignment = Alignment.CenterVertically
+//                ){
+//                    RadioButton(
+//                        selected = selectedValue == item,
+//                        onClick = {
+//                            selectedValue = item
+//                            onSelectionChanged(item)
+//                        }
+//                    )
+//                    Text(item)
+//                }
+//            }
+//            Divider(
+//                thickness = dimensionResource(R.dimen.thickness_divider),
+//                modifier = Modifier.padding(bottom = dimensionResource(R.dimen.padding_medium))
+//            )
+            Text("image placeholder")
+//            FormattedPriceLabel(
+//                subtotal = subtotal!!,
+//                modifier = Modifier
+//                    .align(Alignment.End)
+//                    .padding(
+//                        top = dimensionResource(R.dimen.padding_medium),
+//                        bottom = dimensionResource(R.dimen.padding_medium)
+//                    )
+//            )
         }
         Row(
             modifier = Modifier
@@ -103,7 +106,7 @@ fun SelectOptionScreen(
                 .padding(dimensionResource(R.dimen.padding_medium))
                 .weight(1f, false),
             horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_medium)),
-            verticalAlignment = Alignment.Bottom
+            verticalAlignment = Alignment.Top
         ){
             OutlinedButton(modifier = Modifier.weight(1f), onClick = onCancelButtonClicked) {
                 Text(stringResource(R.string.cancel))
@@ -118,15 +121,4 @@ fun SelectOptionScreen(
             }
         }
     }
-
-}
-
-@Preview
-@Composable
-fun SelectOptionPreview(){
-    SelectOptionScreen(
-        subtotal = "299.99",
-        options = listOf("Option 1", "Option 2", "Option 3", "Option 4"),
-        modifier = Modifier.fillMaxHeight()
-    )
 }
