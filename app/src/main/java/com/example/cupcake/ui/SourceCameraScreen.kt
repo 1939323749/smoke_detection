@@ -32,10 +32,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
-import coil.ImageLoader
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberAsyncImagePainter
-import coil.compose.rememberImagePainter
 import com.example.cupcake.BuildConfig
 import com.example.cupcake.R
 import com.tencent.yolov5ncnn.YoloV5Ncnn

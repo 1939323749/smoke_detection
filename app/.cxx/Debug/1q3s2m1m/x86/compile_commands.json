@@ -1,0 +1,7 @@
+[
+{
+  "directory": "C:/Users/zhuxiaolei/Documents/basic-android-kotlin-compose-training-cupcake-main/app/.cxx/Debug/1q3s2m1m/x86",
+  "command": "C:\\Users\\zhuxiaolei\\AppData\\Local\\Android\\Sdk\\ndk\\23.1.7779620\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=i686-none-linux-android24 --gcc-toolchain=C:/Users/zhuxiaolei/AppData/Local/Android/Sdk/ndk/23.1.7779620/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=C:/Users/zhuxiaolei/AppData/Local/Android/Sdk/ndk/23.1.7779620/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dyolov5ncnn_EXPORTS -isystem C:/Users/zhuxiaolei/Documents/basic-android-kotlin-compose-training-cupcake-main/app/src/main/java/com/example/cupcake/jni/x86/include/ncnn  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC   -fno-rtti -fno-exceptions -o CMakeFiles\\yolov5ncnn.dir\\yolov5ncnn_jni.cpp.o -c C:\\Users\\zhuxiaolei\\Documents\\basic-android-kotlin-compose-training-cupcake-main\\app\\src\\main\\java\\com\\example\\cupcake\\jni\\yolov5ncnn_jni.cpp",
+  "file": "C:\\Users\\zhuxiaolei\\Documents\\basic-android-kotlin-compose-training-cupcake-main\\app\\src\\main\\java\\com\\example\\cupcake\\jni\\yolov5ncnn_jni.cpp"
+}
+]

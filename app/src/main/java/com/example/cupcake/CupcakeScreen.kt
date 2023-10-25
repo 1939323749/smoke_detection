@@ -18,7 +18,9 @@ package com.example.cupcake
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -92,6 +94,7 @@ fun CupcakeAppBar(
     )
 }
 
+@RequiresApi(Build.VERSION_CODES.P)
 @Composable
 fun CupcakeApp(
     viewModel: OrderViewModel = viewModel(),

@@ -1,7 +1,6 @@
 package com.example.cupcake.ui
 
 import android.content.res.AssetManager
-import android.media.Image
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
@@ -22,7 +21,6 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
-import coil.request.ImageRequest
 import com.example.cupcake.R
 import com.tencent.yolov5ncnn.YoloV5Ncnn
 import com.tencent.yolov5ncnn.decodeUri

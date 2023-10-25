@@ -1,0 +1,4 @@
+# ninja log v5
+1	695	719910059	CMakeFiles/yolov5ncnn.dir/yolov5ncnn_jni.cpp.o	ad0123953ffb76a1
+696	950	719910059	C:/Users/zhuxiaolei/Documents/basic-android-kotlin-compose-training-cupcake-main/app/build/intermediates/cxx/Debug/1q3s2m1m/obj/arm64-v8a/libyolov5ncnn.so	4c6fd25baf176125
+2	154	719910210	C:/Users/zhuxiaolei/Documents/basic-android-kotlin-compose-training-cupcake-main/app/build/intermediates/cxx/Debug/1q3s2m1m/obj/arm64-v8a/libyolov5ncnn.so	4c6fd25baf176125
