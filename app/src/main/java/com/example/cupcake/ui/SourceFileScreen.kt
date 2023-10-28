@@ -20,8 +20,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.example.cupcake.R
+import com.example.cupcake.data.getPollutionLevel
 import com.tencent.yolov5ncnn.YoloV5Ncnn
 import com.tencent.yolov5ncnn.decodeUri
 import com.tencent.yolov5ncnn.showObjects
@@ -35,45 +37,58 @@ fun SourceFileScreen(
     onCancelButtonClicked: () -> Unit = {},
     onNextButtonClicked: () -> Unit = {},
     modifier: Modifier = Modifier
-){
+) {
     var selectedValue by rememberSaveable { mutableStateOf("") }
-    val launcher= rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()){
-        if(it!=null){
+    val launcher = rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) {
+        if (it != null) {
             onImageSelected(it)
         }
     }
-    val context= LocalContext.current
+    val context = LocalContext.current
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.SpaceBetween
     ) {
-        Column(modifier = Modifier.padding(dimensionResource(R.dimen.padding_medium)).align(Alignment.CenterHorizontally).verticalScroll(rememberScrollState())){
-            if(uri!=null){
+        Column(
+            modifier = Modifier
+                .padding(dimensionResource(R.dimen.padding_medium))
+                .align(Alignment.CenterHorizontally)
+                .verticalScroll(rememberScrollState())
+        ) {
+            if (uri != null) {
                 val assetManager: AssetManager = context.assets
                 val yolov5ncnn = YoloV5Ncnn()
                 yolov5ncnn.Init(assetManager)
-                val objects = yolov5ncnn.Detect(decodeUri(uri,context),false)
-                val bms= showObjects(objects, decodeUri(uri,context))
-//                val painter= rememberAsyncImagePainter(
-//                    ImageRequest
-//                        .Builder(LocalContext.current)
-//                        .data(data = uri)
-//                        .build()
-//                )
-                for (bm in bms){
+                val objects = yolov5ncnn.Detect(decodeUri(uri, context), false)
+                val bms = showObjects(objects, decodeUri(uri, context))
+                Image(
+                    painter = rememberAsyncImagePainter(bms.bms[0]),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .width(300.dp)
+                        .height(300.dp)
+                )
+                for (i in 0 until  bms.pers.size) {
                     Image(
-                        painter= rememberAsyncImagePainter(bm),
+                        painter = rememberAsyncImagePainter(bms.bms[i+1]),
                         contentDescription = null,
-                        modifier=Modifier.width(300.dp).height(300.dp)
+                        modifier = Modifier
+                            .width(300.dp)
+                            .height(300.dp)
+                    )
+                    Text(
+                        text = "该烟雾的污染程度为${getPollutionLevel(bms.pers[i])}级",
+                        modifier=Modifier.align(Alignment.CenterHorizontally)
                     )
                 }
-
             }
             Button(onClick = {
-                             launcher.launch(PickVisualMediaRequest(
-                                 mediaType = ActivityResultContracts.PickVisualMedia.ImageOnly
-                             ))
-            },modifier=Modifier.padding(dimensionResource(R.dimen.padding_medium))){
+                launcher.launch(
+                    PickVisualMediaRequest(
+                        mediaType = ActivityResultContracts.PickVisualMedia.ImageOnly
+                    )
+                )
+            }, modifier = Modifier.padding(dimensionResource(R.dimen.padding_medium))) {
                 Text("Select Image")
             }
         }
@@ -84,14 +99,14 @@ fun SourceFileScreen(
                 .weight(1f, false),
             horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_medium)),
             verticalAlignment = Alignment.Bottom
-        ){
+        ) {
             OutlinedButton(modifier = Modifier.weight(1f), onClick = onCancelButtonClicked) {
                 Text(stringResource(R.string.cancel))
             }
             Button(
                 modifier = Modifier.weight(1f),
                 // the button is enabled when the user makes a selection
-                enabled = uri!=null,
+                enabled = uri != null,
                 onClick = onNextButtonClicked
             ) {
                 Text(stringResource(R.string.next))
@@ -99,3 +114,4 @@ fun SourceFileScreen(
         }
     }
 }
+

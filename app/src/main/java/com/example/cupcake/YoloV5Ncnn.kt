@@ -17,9 +17,11 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.AssetManager
 import android.graphics.*
+import android.graphics.ImageFormat.RGB_565
 import android.media.ExifInterface
 import android.net.Uri
 import android.util.Log
+import com.example.cupcake.data.RecResult
 import java.io.IOException
 
 
@@ -94,7 +96,7 @@ fun decodeUri(selectedImage: Uri?,context: Context): Bitmap {
 }
 
 @SuppressLint("SuspiciousIndentation")
-fun showObjects(objects: Array<YoloV5Ncnn.Obj?>?, bitmap: Bitmap):Array<Bitmap> {
+fun showObjects(objects: Array<YoloV5Ncnn.Obj?>?, bitmap: Bitmap): RecResult {
 
     // draw objects on bitmap
     val rgba: Bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true)
@@ -132,7 +134,9 @@ fun showObjects(objects: Array<YoloV5Ncnn.Obj?>?, bitmap: Bitmap):Array<Bitmap> 
     textpaint.textSize = 12f
     textpaint.textAlign = Paint.Align.LEFT
 
-    var results= arrayOf(rgba)
+    var csf= mutableListOf<Float>()
+    var results= mutableListOf<Bitmap>(rgba)
+
     if (objects != null) {
         for (i in objects.indices) {
             paint.color = colors[i % 19]
@@ -140,27 +144,94 @@ fun showObjects(objects: Array<YoloV5Ncnn.Obj?>?, bitmap: Bitmap):Array<Bitmap> 
 
             // draw filled text inside image
             run {
-                val text =
-                    objects[i]!!.label + " = " + String.format("%.1f", objects[i]!!.prob * 100) + "%"
-                val text_width = textpaint.measureText(text)
-                val text_height = -textpaint.ascent() + textpaint.descent()
-                var x = objects[i]!!.x
-                var y = objects[i]!!.y - text_height
-                if (y < 0) y = 0f
-                if (x + text_width > rgba.width) x = rgba.width - text_width
-                canvas.drawRect(x, y, x + text_width, y + text_height, textbgpaint)
-                canvas.drawText(text, x, y - textpaint.ascent(), textpaint)
+                if(objects[i]!!.label=="smoke") {
+                    val text = objects[i]!!.label + " = " + String.format("%.1f", objects[i]!!.prob * 100) + "%"
+                    val text_width = textpaint.measureText(text)
+                    val text_height = -textpaint.ascent() + textpaint.descent()
+                    var x = objects[i]!!.x
+                    var y = objects[i]!!.y - text_height
+                    if (y < 0) y = 0f
+                    if (x + text_width > rgba.width) x = rgba.width - text_width
+                    canvas.drawRect(x, y, x + text_width, y + text_height, textbgpaint)
+                    canvas.drawText(text, x, y - textpaint.ascent(), textpaint)
 
-                val rectBitmap = Bitmap.createBitmap(
-                    image,
-                    objects[i]!!.x.toInt(),
-                    objects[i]!!.y.toInt(),
-                    objects[i]!!.w.toInt(),
-                    objects[i]!!.h.toInt()
-                )
-                results += rectBitmap
+                    val rectBitmap = Bitmap.createBitmap(
+                        image,
+                        objects[i]!!.x.toInt(),
+                        objects[i]!!.y.toInt(),
+                        objects[i]!!.w.toInt(),
+                        objects[i]!!.h.toInt()
+                    )
+                    var io=ConvertGrayImg1(rectBitmap)
+                    val huidutu = ConvertGrayImg(rectBitmap)
+                    results += huidutu!!
+                    csf+=io!!
+
+
+                }
             }
         }
     }
-    return results
+
+
+    val uio = RecResult(results, csf)
+    return uio
 }
+
+fun ConvertGrayImg(img1: Bitmap): (Bitmap?) {
+    val width = img1.width
+    val height = img1.height
+    val pix = IntArray(width * height)
+    img1.getPixels(pix, 0, width, 0, 0, width, height) //第三个参数width为步长，它必须为位图的宽度
+    val alpha = 0xFF shl 24
+    for (i in 0 until height) {
+        for (j in 0 until width) {
+            var color = pix[width * i + j]
+            //记住这里的Alpha值应设为00，不要设为ff，不然就不是灰度图了
+            val red = color and 0x00FF0000 shr 16
+            val green = color and 0x0000FF00 shr 8
+            val blue = color and 0x000000FF
+            //这里有些人会将三个颜色分量的值相加然后除以3，但是这会存在一些极端的情况，所以以0.3 、 0.59 、 0.11的比例来计算
+//是比较好的
+            color = (red.toFloat() * 0.3 + green.toFloat() * 0.59 + blue.toFloat() * 0.11).toInt()
+            color = alpha or (color shl 16) or (color shl 8) or color
+            pix[width * i + j] = color
+
+        }
+    }
+    val result = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565)
+    result.setPixels(pix, 0, width, 0, 0, width, height)
+    return result
+}
+fun ConvertGrayImg1(img1: Bitmap): (Float?) {
+    val width = img1.width
+    val height = img1.height
+    val pix = IntArray(width * height)
+    var white=0
+    var black=0
+    img1.getPixels(pix, 0, width, 0, 0, width, height) //第三个参数width为步长，它必须为位图的宽度
+    val alpha = 0xFF shl 24
+    for (i in 0 until height) {
+        for (j in 0 until width) {
+            var color = pix[width * i + j]
+            //记住这里的Alpha值应设为00，不要设为ff，不然就不是灰度图了
+            val red = color and 0x00FF0000 shr 16
+            val green = color and 0x0000FF00 shr 8
+            val blue = color and 0x000000FF
+            //这里有些人会将三个颜色分量的值相加然后除以3，但是这会存在一些极端的情况，所以以0.3 、 0.59 、 0.11的比例来计算
+//是比较好的
+            color = (red.toFloat() * 0.299 + green.toFloat() * 0.587 + blue.toFloat() * 0.114).toInt()
+            if(color<125)black++
+            else if(color>=125)white++
+
+            color = alpha or (color shl 16) or (color shl 8) or color
+            pix[width * i + j] = color
+
+        }
+    }
+    val result = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565)
+    result.setPixels(pix, 0, width, 0, 0, width, height)
+    return black.toFloat()/(white+black)
+}
+
+

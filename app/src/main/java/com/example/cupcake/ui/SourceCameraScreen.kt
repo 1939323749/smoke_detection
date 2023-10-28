@@ -8,6 +8,7 @@ import android.graphics.Bitmap
 import android.graphics.ImageDecoder
 import android.icu.text.SimpleDateFormat
 import android.net.Uri
+import android.net.wifi.WifiConfiguration.AuthAlgorithm.strings
 import android.os.Build
 import android.os.Environment
 import android.util.Log
@@ -36,6 +37,7 @@ import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberAsyncImagePainter
 import com.example.cupcake.BuildConfig
 import com.example.cupcake.R
+import com.example.cupcake.data.getPollutionLevel
 import com.tencent.yolov5ncnn.YoloV5Ncnn
 import com.tencent.yolov5ncnn.decodeUri
 import com.tencent.yolov5ncnn.showObjects
@@ -94,11 +96,17 @@ fun SourceCameraScreen(
                     yolov5ncnn.Init(assetManager)
                     val objects = yolov5ncnn.Detect(decodeUri(imageUri,context),false)
                     val bms= showObjects(objects, decodeUri(imageUri,context))
-                    for (bm in bms){
+                    for (i in 0 until  bms.pers.size) {
                         Image(
-                            painter= rememberAsyncImagePainter(bm),
+                            painter = rememberAsyncImagePainter(bms.bms[i+1]),
                             contentDescription = null,
-                            modifier=Modifier.width(300.dp).height(300.dp)
+                            modifier = Modifier
+                                .width(300.dp)
+                                .height(300.dp)
+                        )
+                        Text(
+                            text = "该烟雾的污染程度为${getPollutionLevel(bms.pers[i])}级",
+                            modifier=Modifier.align(Alignment.CenterHorizontally)
                         )
                     }
                 }
