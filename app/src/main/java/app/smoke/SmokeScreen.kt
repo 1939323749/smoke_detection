@@ -1,4 +1,4 @@
-package com.example.cupcake
+package app.smoke
 
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -25,8 +25,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.cupcake.data.DataSource
-import com.example.cupcake.ui.*
+import app.smoke.data.DataSource
+import app.smoke.ui.*
 
 enum class SmokeScreen(@StringRes val title: Int) {
     Start(title = R.string.app_name),

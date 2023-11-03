@@ -1,6 +1,6 @@
-package com.example.cupcake.data
+package app.smoke.data
 
-import com.example.cupcake.R
+import app.smoke.R
 
 object DataSource {
 

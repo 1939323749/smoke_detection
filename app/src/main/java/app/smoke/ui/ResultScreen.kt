@@ -1,4 +1,4 @@
-package com.example.cupcake.ui
+package app.smoke.ui
 
 import android.content.res.AssetManager
 import android.net.Uri
@@ -17,8 +17,8 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
-import com.example.cupcake.R
-import com.example.cupcake.data.getPollutionLevel
+import app.smoke.R
+import app.smoke.data.getPollutionLevel
 import com.tencent.yolov5ncnn.YoloV5Ncnn
 import com.tencent.yolov5ncnn.decodeUri
 import com.tencent.yolov5ncnn.showObjects

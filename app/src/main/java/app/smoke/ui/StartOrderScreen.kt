@@ -1,4 +1,4 @@
-package com.example.cupcake.ui
+package app.smoke.ui
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
@@ -20,8 +20,8 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.cupcake.R
-import com.example.cupcake.data.DataSource
+import app.smoke.R
+import app.smoke.data.DataSource
 
 @Composable
 fun StartOrderScreen(

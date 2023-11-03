@@ -1,4 +1,4 @@
-package com.example.cupcake.ui
+package app.smoke.ui
 
 import android.Manifest
 import android.content.Context
@@ -22,7 +22,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -31,10 +30,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
-import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberAsyncImagePainter
-import com.example.cupcake.BuildConfig
-import com.example.cupcake.R
+import app.smoke.BuildConfig
+import app.smoke.R
 import java.io.File
 import java.io.FileOutputStream
 import java.util.*

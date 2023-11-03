@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.cupcake"
+    namespace = "app.smoke"
     compileSdk = 33
 
     defaultConfig {
-        applicationId = "com.example.cupcake"
+        applicationId = "app.smoke"
         minSdk = 24
         targetSdk = 33
         versionCode = 1
@@ -50,7 +50,7 @@ android {
     externalNativeBuild {
         cmake {
             version ="3.10.2"
-            path =file("src/main/java/com/example/cupcake/jni/CMakeLists.txt")
+            path =file("src/main/java/app/smoke/jni/CMakeLists.txt")
         }
     }
 }

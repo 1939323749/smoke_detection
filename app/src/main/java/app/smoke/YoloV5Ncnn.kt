@@ -20,7 +20,7 @@ import android.graphics.*
 import android.media.ExifInterface
 import android.net.Uri
 import android.util.Log
-import com.example.cupcake.data.RecResult
+import app.smoke.data.RecResult
 import java.io.IOException
 
 

@@ -1,4 +1,4 @@
-package com.example.cupcake.ui
+package app.smoke.ui
 
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -20,7 +20,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
-import com.example.cupcake.R
+import app.smoke.R
 
 @Composable
 fun SourceFileScreen(

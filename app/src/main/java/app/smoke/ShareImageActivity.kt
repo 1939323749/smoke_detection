@@ -1,4 +1,4 @@
-package com.example.cupcake
+package app.smoke
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -20,8 +20,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
-import com.example.cupcake.data.getPollutionLevel
-import com.example.cupcake.ui.theme.SmokeTheme
+import app.smoke.data.getPollutionLevel
+import app.smoke.ui.theme.SmokeTheme
 import com.tencent.yolov5ncnn.YoloV5Ncnn
 import com.tencent.yolov5ncnn.decodeUri
 import com.tencent.yolov5ncnn.showObjects

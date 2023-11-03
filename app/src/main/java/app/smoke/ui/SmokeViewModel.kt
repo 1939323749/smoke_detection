@@ -1,8 +1,8 @@
-package com.example.cupcake.ui
+package app.smoke.ui
 
 import android.net.Uri
 import androidx.lifecycle.ViewModel
-import com.example.cupcake.data.OrderUiState
+import app.smoke.data.OrderUiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
