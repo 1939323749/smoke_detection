@@ -64,7 +64,7 @@ fun SmokeAppBar(
 @RequiresApi(Build.VERSION_CODES.P)
 @Composable
 fun SmokeApp(
-    viewModel: OrderViewModel = viewModel(),
+    viewModel: SmokeViewModel = viewModel(),
     navController: NavHostController = rememberNavController()
 ) {
     val backStackEntry by navController.currentBackStackEntryAsState()
@@ -141,7 +141,7 @@ fun SmokeApp(
 }
 
 private fun cancelOrderAndNavigateToStart(
-    viewModel: OrderViewModel,
+    viewModel: SmokeViewModel,
     navController: NavHostController
 ) {
     viewModel.resetOrder()

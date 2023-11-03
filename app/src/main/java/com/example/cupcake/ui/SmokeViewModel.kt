@@ -11,7 +11,7 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
-class OrderViewModel : ViewModel() {
+class SmokeViewModel : ViewModel() {
 
     private val _uiState = MutableStateFlow(OrderUiState(pickupOptions = pickupOptions()))
     val uiState: StateFlow<OrderUiState> = _uiState.asStateFlow()
