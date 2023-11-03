@@ -2,7 +2,7 @@ package app.smoke.ui
 
 import android.net.Uri
 import androidx.lifecycle.ViewModel
-import app.smoke.data.OrderUiState
+import app.smoke.data.AnalyseUiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -13,8 +13,8 @@ import java.util.Locale
 
 class SmokeViewModel : ViewModel() {
 
-    private val _uiState = MutableStateFlow(OrderUiState(pickupOptions = pickupOptions()))
-    val uiState: StateFlow<OrderUiState> = _uiState.asStateFlow()
+    private val _uiState = MutableStateFlow(AnalyseUiState(pickupOptions = pickupOptions()))
+    val uiState: StateFlow<AnalyseUiState> = _uiState.asStateFlow()
 
     fun setSource(source: Int) {
         _uiState.update { currentState ->
@@ -43,8 +43,8 @@ class SmokeViewModel : ViewModel() {
         return dateOptions
     }
 
-    fun resetOrder() {
-        _uiState.value = OrderUiState(pickupOptions = pickupOptions())
+    fun resetImageSource() {
+        _uiState.value = AnalyseUiState(pickupOptions = pickupOptions())
     }
 }
 

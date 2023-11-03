@@ -88,7 +88,7 @@ fun SmokeApp(
         ) {
             composable(route = SmokeScreen.Start.name) {
                 var next by remember { mutableStateOf(SmokeScreen.SourceFile.name) }
-                StartOrderScreen(
+                StartAnalyseScreen(
                     quantityOptions = DataSource.sourceOptions,
                     onNextButtonClicked = {
                         viewModel.setSource(it)
@@ -109,7 +109,7 @@ fun SmokeApp(
                     uri=uiState.uri,
                     onNextButtonClicked = { navController.navigate(SmokeScreen.Result.name) },
                     onCancelButtonClicked = {
-                        cancelOrderAndNavigateToStart(viewModel, navController)
+                        cancelAnalyseAndNavigateToStart(viewModel, navController)
                     },
                     onImageSelected = { viewModel.setImage(it) },
                     modifier = Modifier.fillMaxHeight()
@@ -120,7 +120,7 @@ fun SmokeApp(
                     imageUri = uiState.uri,
                     onNextButtonClicked = { navController.navigate(SmokeScreen.Result.name) },
                     onCancelButtonClicked = {
-                        cancelOrderAndNavigateToStart(viewModel, navController)
+                        cancelAnalyseAndNavigateToStart(viewModel, navController)
                     },
                     onPhotoShot = { viewModel.setImage(it) },
                     modifier = Modifier.fillMaxHeight()
@@ -131,7 +131,7 @@ fun SmokeApp(
                     imageUri = uiState.uri,
                     onNextButtonClicked = { },
                     onCancelButtonClicked = {
-                        cancelOrderAndNavigateToStart(viewModel, navController)
+                        cancelAnalyseAndNavigateToStart(viewModel, navController)
                     },
                     modifier = Modifier.fillMaxHeight()
                 )
@@ -140,10 +140,10 @@ fun SmokeApp(
     }
 }
 
-private fun cancelOrderAndNavigateToStart(
+private fun cancelAnalyseAndNavigateToStart(
     viewModel: SmokeViewModel,
     navController: NavHostController
 ) {
-    viewModel.resetOrder()
+    viewModel.resetImageSource()
     navController.popBackStack(SmokeScreen.Start.name, inclusive = false)
 }

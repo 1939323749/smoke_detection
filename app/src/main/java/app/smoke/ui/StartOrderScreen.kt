@@ -24,7 +24,7 @@ import app.smoke.R
 import app.smoke.data.DataSource
 
 @Composable
-fun StartOrderScreen(
+fun StartAnalyseScreen(
     quantityOptions: List<Pair<Int, Int>>,
     onNextButtonClicked: (Int) -> Unit,
     modifier: Modifier = Modifier
@@ -81,7 +81,7 @@ fun SelectQuantityButton(
 @Preview
 @Composable
 fun StartOrderPreview(){
-    StartOrderScreen(
+    StartAnalyseScreen(
         quantityOptions = DataSource.sourceOptions,
         onNextButtonClicked = {},
         modifier = Modifier.fillMaxSize().padding(dimensionResource(R.dimen.padding_medium))
