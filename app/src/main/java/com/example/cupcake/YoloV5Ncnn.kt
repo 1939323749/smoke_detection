@@ -17,7 +17,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.AssetManager
 import android.graphics.*
-import android.graphics.ImageFormat.RGB_565
 import android.media.ExifInterface
 import android.net.Uri
 import android.util.Log

@@ -3,12 +3,10 @@ package com.example.cupcake.ui
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
-import android.content.res.AssetManager
 import android.graphics.Bitmap
 import android.graphics.ImageDecoder
 import android.icu.text.SimpleDateFormat
 import android.net.Uri
-import android.net.wifi.WifiConfiguration.AuthAlgorithm.strings
 import android.os.Build
 import android.os.Environment
 import android.util.Log
@@ -37,28 +35,20 @@ import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberAsyncImagePainter
 import com.example.cupcake.BuildConfig
 import com.example.cupcake.R
-import com.example.cupcake.data.getPollutionLevel
-import com.tencent.yolov5ncnn.YoloV5Ncnn
-import com.tencent.yolov5ncnn.decodeUri
-import com.tencent.yolov5ncnn.showObjects
 import java.io.File
 import java.io.FileOutputStream
 import java.util.*
 
 @RequiresApi(Build.VERSION_CODES.P)
-@OptIn(ExperimentalCoilApi::class)
 @Composable
 fun SourceCameraScreen(
     imageUri:Uri?,
-    subtotal: String?,
-    options: List<String>,
     onPhotoShot: (Uri) -> Unit = {},
     onCancelButtonClicked: () -> Unit = {},
     onNextButtonClicked: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     val context= LocalContext.current
-    var selectedValue by rememberSaveable { mutableStateOf("") }
 
     val file = context.createImageFile()
     val uri = FileProvider.getUriForFile(
@@ -91,24 +81,11 @@ fun SourceCameraScreen(
         )){
             if (imageUri != null) {
                 if (imageUri.path?.isNotEmpty() == true) {
-                    val assetManager: AssetManager = context.assets
-                    val yolov5ncnn = YoloV5Ncnn()
-                    yolov5ncnn.Init(assetManager)
-                    val objects = yolov5ncnn.Detect(decodeUri(imageUri,context),false)
-                    val bms= showObjects(objects, decodeUri(imageUri,context))
-                    for (i in 0 until  bms.pers.size) {
-                        Image(
-                            painter = rememberAsyncImagePainter(bms.bms[i+1]),
-                            contentDescription = null,
-                            modifier = Modifier
-                                .width(300.dp)
-                                .height(300.dp)
-                        )
-                        Text(
-                            text = "该烟雾的污染程度为${getPollutionLevel(bms.pers[i])}级",
-                            modifier=Modifier.align(Alignment.CenterHorizontally)
-                        )
-                    }
+                    Image(
+                        painter = rememberAsyncImagePainter(imageUri),
+                        contentDescription = null,
+                        modifier = Modifier.height(300.dp).height(300.dp)
+                    )
                 }
             }
             Button(onClick = {
@@ -124,7 +101,6 @@ fun SourceCameraScreen(
             }
             Button(
                 onClick = {
-                //TODO: save file to external storage
                 saveImageToFile(imageUri,context)
             },
                 modifier=Modifier.padding(dimensionResource(R.dimen.padding_medium)),
@@ -150,7 +126,7 @@ fun SourceCameraScreen(
                 enabled = imageUri!=null,
                 onClick = onNextButtonClicked
             ) {
-                Text(stringResource(R.string.next))
+                Text(stringResource(R.string.analyse_image))
             }
         }
     }

@@ -1,7 +1,6 @@
 package com.example.cupcake.data
 
 import android.graphics.Bitmap
-import androidx.compose.material3.Text
 
 data class RecResult(
     val bms:List<Bitmap>,

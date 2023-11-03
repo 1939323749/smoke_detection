@@ -1,6 +1,5 @@
 package com.example.cupcake.ui
 
-import android.content.res.AssetManager
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
@@ -20,19 +19,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.example.cupcake.R
-import com.example.cupcake.data.getPollutionLevel
-import com.tencent.yolov5ncnn.YoloV5Ncnn
-import com.tencent.yolov5ncnn.decodeUri
-import com.tencent.yolov5ncnn.showObjects
 
 @Composable
 fun SourceFileScreen(
     uri:Uri?,
-    subtotal: String?,
-    options: List<String>,
     onImageSelected: (Uri) -> Unit = {},
     onCancelButtonClicked: () -> Unit = {},
     onNextButtonClicked: () -> Unit = {},
@@ -56,31 +48,11 @@ fun SourceFileScreen(
                 .verticalScroll(rememberScrollState())
         ) {
             if (uri != null) {
-                val assetManager: AssetManager = context.assets
-                val yolov5ncnn = YoloV5Ncnn()
-                yolov5ncnn.Init(assetManager)
-                val objects = yolov5ncnn.Detect(decodeUri(uri, context), false)
-                val bms = showObjects(objects, decodeUri(uri, context))
                 Image(
-                    painter = rememberAsyncImagePainter(bms.bms[0]),
+                    painter = rememberAsyncImagePainter(uri),
                     contentDescription = null,
-                    modifier = Modifier
-                        .width(300.dp)
-                        .height(300.dp)
+                    modifier=Modifier.height(300.dp).width(300.dp)
                 )
-                for (i in 0 until  bms.pers.size) {
-                    Image(
-                        painter = rememberAsyncImagePainter(bms.bms[i+1]),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .width(300.dp)
-                            .height(300.dp)
-                    )
-                    Text(
-                        text = "该烟雾的污染程度为${getPollutionLevel(bms.pers[i])}级",
-                        modifier=Modifier.align(Alignment.CenterHorizontally)
-                    )
-                }
             }
             Button(onClick = {
                 launcher.launch(
@@ -105,11 +77,10 @@ fun SourceFileScreen(
             }
             Button(
                 modifier = Modifier.weight(1f),
-                // the button is enabled when the user makes a selection
                 enabled = uri != null,
                 onClick = onNextButtonClicked
             ) {
-                Text(stringResource(R.string.next))
+                Text(stringResource(R.string.analyse_image))
             }
         }
     }

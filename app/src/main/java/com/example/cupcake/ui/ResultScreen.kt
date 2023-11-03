@@ -1,41 +1,28 @@
 package com.example.cupcake.ui
 
-import android.Manifest
-import android.annotation.SuppressLint
-import android.content.Context
-import android.content.pm.PackageManager
-import android.icu.text.SimpleDateFormat
-import android.media.Image
+import android.content.res.AssetManager
 import android.net.Uri
-import android.widget.Toast
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.PickVisualMediaRequest
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat
-import androidx.core.content.FileProvider
-import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberAsyncImagePainter
-import coil.compose.rememberImagePainter
-import coil.request.ImageRequest
-import com.example.cupcake.BuildConfig
 import com.example.cupcake.R
-import java.io.File
-import java.util.*
+import com.example.cupcake.data.getPollutionLevel
+import com.tencent.yolov5ncnn.YoloV5Ncnn
+import com.tencent.yolov5ncnn.decodeUri
+import com.tencent.yolov5ncnn.showObjects
 
-@OptIn(ExperimentalCoilApi::class)
 @Composable
 fun ResultScreen(
     imageUri:Uri?,
@@ -43,28 +30,46 @@ fun ResultScreen(
     onNextButtonClicked: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
+    var context= LocalContext.current
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.SpaceBetween
     ) {
         Column(
-            modifier = Modifier.padding(dimensionResource(R.dimen.padding_medium)).align(Alignment.CenterHorizontally)
+            modifier = Modifier
+                .padding(dimensionResource(R.dimen.padding_medium))
+                .align(Alignment.CenterHorizontally)
+                .verticalScroll(rememberScrollState())
         ) {
             if (imageUri != null) {
                 if (imageUri.path?.isNotEmpty() == true) {
+                    val assetManager: AssetManager = context.assets
+                    val yolov5ncnn = YoloV5Ncnn()
+                    yolov5ncnn.Init(assetManager)
+                    val objects = yolov5ncnn.Detect(decodeUri(imageUri, context), false)
+                    val bms = showObjects(objects, decodeUri(imageUri, context))
                     Image(
-                        modifier = Modifier
-                            .padding(16.dp, 8.dp),
-                        painter = rememberAsyncImagePainter(imageUri),
-                        contentDescription = null
+                        painter = rememberAsyncImagePainter(bms.bms[0]),
+                        contentDescription = null,
+                        modifier = Modifier.height(300.dp).width(300.dp)
                     )
+                    for (i in 0 until bms.pers.size) {
+                        Image(
+                            painter = rememberAsyncImagePainter(bms.bms[i + 1]),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .width(300.dp)
+                                .height(300.dp)
+                        )
+                        Text(
+                            text = "该烟雾的污染程度为${getPollutionLevel(bms.pers[i])}级（仅供参考）",
+                            modifier = Modifier.align(Alignment.CenterHorizontally)
+                        )
+                    }
+                    if (bms.pers.size == 0) {
+                        Text("没有检测到烟雾！")
+                    }
                 }
-            }
-            Text("result placeholder")
-            Button(onClick = {
-
-            }, modifier = Modifier.padding(dimensionResource(R.dimen.padding_medium))) {
-                Text("Share")
             }
         }
         Row(
@@ -82,7 +87,7 @@ fun ResultScreen(
                 modifier = Modifier.weight(1f),
                 onClick = onNextButtonClicked
             ) {
-                Text(stringResource(R.string.next))
+                Text(stringResource(R.string.share))
             }
         }
     }
