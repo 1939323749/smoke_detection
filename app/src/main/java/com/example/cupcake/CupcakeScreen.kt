@@ -1,6 +1,5 @@
 package com.example.cupcake
 
-import android.net.Uri
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
@@ -17,9 +16,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -70,13 +67,10 @@ fun CupcakeApp(
     viewModel: OrderViewModel = viewModel(),
     navController: NavHostController = rememberNavController()
 ) {
-    // Get current back stack entry
     val backStackEntry by navController.currentBackStackEntryAsState()
-    // Get the name of the current screen
     val currentScreen = CupcakeScreen.valueOf(
         backStackEntry?.destination?.route ?: CupcakeScreen.Start.name
     )
-    var uri : Uri?by rememberSaveable { mutableStateOf(null) }
     Scaffold(
         topBar = {
             CupcakeAppBar(
@@ -122,7 +116,6 @@ fun CupcakeApp(
                 )
             }
             composable(route = CupcakeScreen.SourceCamera.name) {
-                val context = LocalContext.current
                 SourceCameraScreen(
                     imageUri = uiState.uri,
                     onNextButtonClicked = { navController.navigate(CupcakeScreen.Result.name) },
@@ -134,7 +127,6 @@ fun CupcakeApp(
                 )
             }
             composable(route = CupcakeScreen.Result.name) {
-                val context = LocalContext.current
                 ResultScreen(
                     imageUri = uiState.uri,
                     onNextButtonClicked = { },
