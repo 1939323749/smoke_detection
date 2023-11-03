@@ -1,6 +1,7 @@
 package app.smoke.ui
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -33,6 +34,7 @@ import androidx.core.content.FileProvider
 import coil.compose.rememberAsyncImagePainter
 import app.smoke.BuildConfig
 import app.smoke.R
+import app.smoke.common.saveImage
 import java.io.File
 import java.io.FileOutputStream
 import java.util.*
@@ -99,7 +101,11 @@ fun SourceCameraScreen(
             }
             Button(
                 onClick = {
-                saveImageToFile(imageUri,context)
+                if(saveImage(context,imageUri,null)){
+                    Toast.makeText(context, "image saved successfully", Toast.LENGTH_SHORT).show()
+                }else{
+                    Toast.makeText(context, "image save failed", Toast.LENGTH_SHORT).show()
+                }
             },
                 modifier=Modifier.padding(dimensionResource(R.dimen.padding_medium)),
                 enabled = imageUri!=null
@@ -129,9 +135,10 @@ fun SourceCameraScreen(
         }
     }
 }
+@SuppressLint("SimpleDateFormat")
 fun Context.createImageFile(): File {
     // Create an image file name
-    val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+    val timeStamp = SimpleDateFormat("yyyyMMdd_HHmm ss").format(Date())
     val imageFileName = "JPEG_" + timeStamp + "_"
     val image = File.createTempFile(
         imageFileName, /* prefix */
@@ -141,41 +148,8 @@ fun Context.createImageFile(): File {
     return image
 }
 
-@RequiresApi(Build.VERSION_CODES.P)
-private fun saveImageToFile(imageUri: Uri?,context: Context) {
-    imageUri?.let { uri ->
-        val source = ImageDecoder.createSource(context.contentResolver, uri)
-        val bitmap = ImageDecoder.decodeBitmap(source)
 
-        val externalStorageState = Environment.getExternalStorageState()
-        if (Environment.MEDIA_MOUNTED == externalStorageState) {
-            val imageDirectory = File(Environment.getExternalStorageDirectory(), "smoke")
-            if (!imageDirectory.exists()) {
-                imageDirectory.mkdirs()
-            }
-
-            val fileName =  getCurrentDate()+".jpg"
-            val outputFile = File(imageDirectory, fileName)
-
-            var outputStream: FileOutputStream? = null
-            try {
-                outputStream = FileOutputStream(outputFile)
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
-                outputStream.flush()
-                Toast.makeText(context, "Image saved successfully", Toast.LENGTH_SHORT).show()
-            } catch (e: Exception) {
-                Log.d("[file save]",e.toString())
-                Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show()
-                e.printStackTrace()
-            } finally {
-                outputStream?.close()
-            }
-        } else {
-            Toast.makeText(context, "External storage not available", Toast.LENGTH_SHORT).show()
-        }
-    }
-}
-
+@SuppressLint("SimpleDateFormat")
 fun getCurrentDate(): String {
     val currentDate = Date()
     val formatter = SimpleDateFormat("yyyy-MM-dd")

@@ -1,5 +1,6 @@
 package app.smoke.ui
 
+import android.content.Context
 import android.content.res.AssetManager
 import android.net.Uri
 import androidx.compose.foundation.Image
@@ -18,6 +19,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import app.smoke.R
+import app.smoke.data.RecResult
 import app.smoke.data.getPollutionLevel
 import com.tencent.yolov5ncnn.YoloV5Ncnn
 import com.tencent.yolov5ncnn.decodeUri
@@ -25,12 +27,13 @@ import com.tencent.yolov5ncnn.showObjects
 
 @Composable
 fun ResultScreen(
+    context:Context,
     imageUri:Uri?,
     onCancelButtonClicked: () -> Unit = {},
     onNextButtonClicked: () -> Unit = {},
+    onGetResult:(RecResult)->Unit={},
     modifier: Modifier = Modifier
 ) {
-    var context= LocalContext.current
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.SpaceBetween
@@ -48,6 +51,7 @@ fun ResultScreen(
                     yolov5ncnn.Init(assetManager)
                     val objects = yolov5ncnn.Detect(decodeUri(imageUri, context), false)
                     val bms = showObjects(objects, decodeUri(imageUri, context))
+                    onGetResult(bms)
                     Image(
                         painter = rememberAsyncImagePainter(bms.bms[0]),
                         contentDescription = null,

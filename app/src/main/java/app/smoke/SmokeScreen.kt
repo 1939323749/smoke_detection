@@ -17,6 +17,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -25,9 +26,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import app.smoke.data.CAMARA
-import app.smoke.data.DataSource
-import app.smoke.data.FILE
+import app.smoke.common.shareResult
+import app.smoke.data.*
 import app.smoke.ui.*
 
 enum class SmokeScreen(@StringRes val title: Int) {
@@ -83,6 +83,7 @@ fun SmokeApp(
         }
     ) { innerPadding ->
         val uiState by viewModel.uiState.collectAsState()
+        val res by remember { mutableStateOf(uiState.result) }
         NavHost(
             navController = navController,
             startDestination = SmokeScreen.Start.name,
@@ -129,15 +130,33 @@ fun SmokeApp(
                 )
             }
             composable(route = SmokeScreen.Result.name) {
+                val context= LocalContext.current
                 ResultScreen(
+                    context = context,
                     imageUri = if(uiState.source== FILE){
                         uiState.fileUri
                     }else{
                         uiState.camaraUri
                     },
-                    onNextButtonClicked = { },
+                    onNextButtonClicked = {
+
+                        var maxPollutionLevel=0
+                        if(res!=null){
+                            for (level in res!!.pers){
+                                maxPollutionLevel= maxOf(getPollutionLevel(level),maxPollutionLevel)
+                            }
+                        }
+                        shareResult(context = context,uri = if(uiState.source== FILE){
+                            uiState.fileUri
+                        }else{
+                            uiState.camaraUri
+                        },"最大污染等级为$maxPollutionLevel")
+                    },
                     onCancelButtonClicked = {
                         cancelAnalyseAndNavigateToStart(viewModel, navController)
+                    },
+                    onGetResult = {res->
+                        uiState.result=res
                     },
                     modifier = Modifier.fillMaxHeight()
                 )

@@ -7,4 +7,5 @@ data class AnalyseUiState(
     val fileUri: Uri?=null,
     val camaraUri: Uri?=null,
     val sourceOptions: List<String> = listOf(),
+    var result: RecResult?=null
 )

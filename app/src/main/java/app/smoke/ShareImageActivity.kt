@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
+import app.smoke.common.shareResult
 import coil.compose.rememberAsyncImagePainter
 import app.smoke.data.getPollutionLevel
 import app.smoke.ui.theme.SmokeTheme
@@ -136,7 +137,9 @@ fun DisplayImage(uri: Uri){
                 Row(modifier = Modifier.align(Alignment.CenterHorizontally)) {
                     Button(
                         modifier = Modifier.weight(1f).padding(top = 30.dp),
-                        onClick = {}
+                        onClick = {
+                            shareResult(context,uri,"test")
+                        }
                     ) {
                         Text("Share")
                     }
