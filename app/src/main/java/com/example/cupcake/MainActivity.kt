@@ -20,11 +20,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
-import androidx.compose.material3.Button
-import androidx.compose.material3.Surface
-import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
-import com.example.cupcake.ui.theme.CupcakeTheme
+import com.example.cupcake.ui.theme.SmokeTheme
 
 class MainActivity : ComponentActivity() {
     @RequiresApi(Build.VERSION_CODES.P)
@@ -32,8 +29,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
-            CupcakeTheme {
-                CupcakeApp()
+            SmokeTheme {
+                SmokeApp()
             }
         }
     }

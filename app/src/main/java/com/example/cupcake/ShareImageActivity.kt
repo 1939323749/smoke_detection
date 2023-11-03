@@ -21,7 +21,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.example.cupcake.data.getPollutionLevel
-import com.example.cupcake.ui.theme.CupcakeTheme
+import com.example.cupcake.ui.theme.SmokeTheme
 import com.tencent.yolov5ncnn.YoloV5Ncnn
 import com.tencent.yolov5ncnn.decodeUri
 import com.tencent.yolov5ncnn.showObjects
@@ -49,7 +49,7 @@ class ShareImageActivity : ComponentActivity() {
         }
         sharedImageUri?.let { uri ->
             setContent {
-                CupcakeTheme {
+                SmokeTheme {
                     Column(
                         modifier = Modifier.fillMaxSize()
                     ) {
