@@ -25,7 +25,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import app.smoke.data.CAMARA
 import app.smoke.data.DataSource
+import app.smoke.data.FILE
 import app.smoke.ui.*
 
 enum class SmokeScreen(@StringRes val title: Int) {
@@ -92,9 +94,9 @@ fun SmokeApp(
                     quantityOptions = DataSource.sourceOptions,
                     onNextButtonClicked = {
                         viewModel.setSource(it)
-                        if (it==0){
+                        if (it== FILE){
                             next=SmokeScreen.SourceFile.name
-                        }else if (it==1){
+                        }else if (it== CAMARA){
                             next=SmokeScreen.SourceCamera.name
                         }
                         navController.navigate(next)
@@ -106,29 +108,33 @@ fun SmokeApp(
             }
             composable(route = SmokeScreen.SourceFile.name) {
                 SourceFileScreen(
-                    uri=uiState.uri,
+                    uri=uiState.fileUri,
                     onNextButtonClicked = { navController.navigate(SmokeScreen.Result.name) },
                     onCancelButtonClicked = {
                         cancelAnalyseAndNavigateToStart(viewModel, navController)
                     },
-                    onImageSelected = { viewModel.setImage(it) },
+                    onImageSelected = { viewModel.setFileImage(it) },
                     modifier = Modifier.fillMaxHeight()
                 )
             }
             composable(route = SmokeScreen.SourceCamera.name) {
                 SourceCameraScreen(
-                    imageUri = uiState.uri,
+                    imageUri = uiState.camaraUri,
                     onNextButtonClicked = { navController.navigate(SmokeScreen.Result.name) },
                     onCancelButtonClicked = {
                         cancelAnalyseAndNavigateToStart(viewModel, navController)
                     },
-                    onPhotoShot = { viewModel.setImage(it) },
+                    onPhotoShot = { viewModel.setCamaraImage(it) },
                     modifier = Modifier.fillMaxHeight()
                 )
             }
             composable(route = SmokeScreen.Result.name) {
                 ResultScreen(
-                    imageUri = uiState.uri,
+                    imageUri = if(uiState.source== FILE){
+                        uiState.fileUri
+                    }else{
+                        uiState.camaraUri
+                    },
                     onNextButtonClicked = { },
                     onCancelButtonClicked = {
                         cancelAnalyseAndNavigateToStart(viewModel, navController)

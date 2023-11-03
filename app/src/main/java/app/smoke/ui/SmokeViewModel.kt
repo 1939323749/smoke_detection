@@ -13,7 +13,7 @@ import java.util.Locale
 
 class SmokeViewModel : ViewModel() {
 
-    private val _uiState = MutableStateFlow(AnalyseUiState(pickupOptions = pickupOptions()))
+    private val _uiState = MutableStateFlow(AnalyseUiState(sourceOptions = pickupOptions()))
     val uiState: StateFlow<AnalyseUiState> = _uiState.asStateFlow()
 
     fun setSource(source: Int) {
@@ -24,10 +24,18 @@ class SmokeViewModel : ViewModel() {
         }
     }
 
-    fun setImage(uri: Uri){
+    fun setFileImage(uri: Uri){
         _uiState.update { currentState->
             currentState.copy(
-                uri=uri
+                fileUri=uri
+            )
+        }
+    }
+
+    fun setCamaraImage(uri: Uri){
+        _uiState.update { currentState->
+            currentState.copy(
+                camaraUri=uri
             )
         }
     }
@@ -44,7 +52,7 @@ class SmokeViewModel : ViewModel() {
     }
 
     fun resetImageSource() {
-        _uiState.value = AnalyseUiState(pickupOptions = pickupOptions())
+        _uiState.value = AnalyseUiState(sourceOptions = pickupOptions())
     }
 }
 

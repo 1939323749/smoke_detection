@@ -4,6 +4,7 @@ import android.net.Uri
 
 data class AnalyseUiState(
     val source:Int=0,
-    val uri: Uri?=null,
-    val pickupOptions: List<String> = listOf(),
+    val fileUri: Uri?=null,
+    val camaraUri: Uri?=null,
+    val sourceOptions: List<String> = listOf(),
 )
