@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Smoke</string>
+    <string name="source_file">File</string>
+    <string name="source_camera">Camera</string>
+    <string name="result">Result</string>
+    <string name="analyse">Analyse Result</string>
+    <string name="back_button">Back</string>
+    <string name="next">Next</string>
+    <string name="cancel">Cancel</string>
+    <string name="share">Share</string>
+    <string name="analyse_image">Analyse</string>
+    <string name="return_button">Return</string>
+    <string name="open_camera">Open Camera</string>
+    <string name="save">Save</string>
+    <string name="select_image">Select Image</string>
+    <string name="choose_image_source">Choose image source</string>
+</resources>

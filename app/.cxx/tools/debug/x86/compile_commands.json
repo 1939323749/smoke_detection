@@ -1,0 +1,7 @@
+[
+{
+  "directory": "C:/Users/zhuxiaolei/Downloads/smoke_detection-final-2023-11-04/smoke_detection-final-2023-11-04/app/.cxx/Debug/116mz734/x86",
+  "command": "C:\\Users\\zhuxiaolei\\AppData\\Local\\Android\\Sdk\\ndk\\23.1.7779620\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=i686-none-linux-android24 --gcc-toolchain=C:/Users/zhuxiaolei/AppData/Local/Android/Sdk/ndk/23.1.7779620/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=C:/Users/zhuxiaolei/AppData/Local/Android/Sdk/ndk/23.1.7779620/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dyolov5ncnn_EXPORTS -isystem C:/Users/zhuxiaolei/Downloads/smoke_detection-final-2023-11-04/smoke_detection-final-2023-11-04/app/src/main/java/app/smoke/jni/x86/include/ncnn  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC   -fno-rtti -fno-exceptions -o CMakeFiles\\yolov5ncnn.dir\\yolov5ncnn_jni.cpp.o -c C:\\Users\\zhuxiaolei\\Downloads\\smoke_detection-final-2023-11-04\\smoke_detection-final-2023-11-04\\app\\src\\main\\java\\app\\smoke\\jni\\yolov5ncnn_jni.cpp",
+  "file": "C:\\Users\\zhuxiaolei\\Downloads\\smoke_detection-final-2023-11-04\\smoke_detection-final-2023-11-04\\app\\src\\main\\java\\app\\smoke\\jni\\yolov5ncnn_jni.cpp"
+}
+]

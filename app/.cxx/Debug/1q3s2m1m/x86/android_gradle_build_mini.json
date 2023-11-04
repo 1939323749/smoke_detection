@@ -1,0 +1,33 @@
+{
+  "buildFiles": [
+    "C:\\Users\\zhuxiaolei\\Documents\\basic-android-kotlin-compose-training-cupcake-main\\app\\src\\main\\java\\com\\example\\cupcake\\jni\\CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "C:\\Users\\zhuxiaolei\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe",
+      "-C",
+      "C:\\Users\\zhuxiaolei\\Documents\\basic-android-kotlin-compose-training-cupcake-main\\app\\.cxx\\Debug\\1q3s2m1m\\x86",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "C:\\Users\\zhuxiaolei\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe",
+    "-C",
+    "C:\\Users\\zhuxiaolei\\Documents\\basic-android-kotlin-compose-training-cupcake-main\\app\\.cxx\\Debug\\1q3s2m1m\\x86",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {
+    "yolov5ncnn-Debug-x86": {
+      "artifactName": "yolov5ncnn",
+      "buildCommandComponents": [
+        "C:\\Users\\zhuxiaolei\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe",
+        "-C",
+        "C:\\Users\\zhuxiaolei\\Documents\\basic-android-kotlin-compose-training-cupcake-main\\app\\.cxx\\Debug\\1q3s2m1m\\x86",
+        "yolov5ncnn"
+      ],
+      "abi": "x86",
+      "output": "C:\\Users\\zhuxiaolei\\Documents\\basic-android-kotlin-compose-training-cupcake-main\\app\\build\\intermediates\\cxx\\Debug\\1q3s2m1m\\obj\\x86\\libyolov5ncnn.so",
+      "runtimeFiles": []
+    }
+  }
+}

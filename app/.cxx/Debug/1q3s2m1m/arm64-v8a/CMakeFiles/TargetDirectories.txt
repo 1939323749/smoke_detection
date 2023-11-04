@@ -1,0 +1,3 @@
+C:/Users/zhuxiaolei/Documents/basic-android-kotlin-compose-training-cupcake-main/app/.cxx/Debug/1q3s2m1m/arm64-v8a/CMakeFiles/yolov5ncnn.dir
+C:/Users/zhuxiaolei/Documents/basic-android-kotlin-compose-training-cupcake-main/app/.cxx/Debug/1q3s2m1m/arm64-v8a/CMakeFiles/edit_cache.dir
+C:/Users/zhuxiaolei/Documents/basic-android-kotlin-compose-training-cupcake-main/app/.cxx/Debug/1q3s2m1m/arm64-v8a/CMakeFiles/rebuild_cache.dir
