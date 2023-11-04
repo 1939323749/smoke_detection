@@ -1,11 +1,19 @@
 package app.smoke
 
+import android.Manifest
+import android.content.pm.PackageManager
+import android.content.res.AssetManager
+import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Build
+import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Icon
@@ -16,19 +24,29 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import app.smoke.common.saveImage
 import app.smoke.common.shareResult
 import app.smoke.data.*
 import app.smoke.ui.*
+import coil.compose.rememberAsyncImagePainter
+import com.tencent.yolov5ncnn.YoloV5Ncnn
+import com.tencent.yolov5ncnn.decodeUri
+import com.tencent.yolov5ncnn.showObjects
+import java.util.*
 
 enum class SmokeScreen(@StringRes val title: Int) {
     Start(title = R.string.app_name),
@@ -108,36 +126,84 @@ fun SmokeApp(
                 )
             }
             composable(route = SmokeScreen.SourceFile.name) {
+                val launcher = rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) {
+                    if (it != null) {
+                        viewModel.setFileImage(it)
+                    }
+                }
                 SourceFileScreen(
                     uri=uiState.fileUri,
+                    onSelectImageButtonClicked = {
+                        launcher.launch(
+                        PickVisualMediaRequest(
+                            mediaType = ActivityResultContracts.PickVisualMedia.ImageOnly
+                        )
+                    )},
                     onNextButtonClicked = { navController.navigate(SmokeScreen.Result.name) },
                     onCancelButtonClicked = {
                         cancelAnalyseAndNavigateToStart(viewModel, navController)
                     },
-                    onImageSelected = { viewModel.setFileImage(it) },
+                    onImageSelected = {
+                        if (uiState.fileUri != null) {
+                        Image(
+                            painter = rememberAsyncImagePainter(uiState.fileUri),
+                            contentDescription = null,
+                            modifier=Modifier.height(300.dp).width(300.dp)
+                        )
+                    } },
                     modifier = Modifier.fillMaxHeight()
                 )
             }
             composable(route = SmokeScreen.SourceCamera.name) {
+                val context= LocalContext.current
+
+                val file = context.createImageFile()
+                val uri = FileProvider.getUriForFile(
+                    Objects.requireNonNull(context),
+                    BuildConfig.APPLICATION_ID + ".provider", file
+                )
+
+                val cameraLauncher =
+                    rememberLauncherForActivityResult(ActivityResultContracts.TakePicture()) {
+                        viewModel.setCamaraImage(uri)
+                    }
+
+                val permissionLauncher = rememberLauncherForActivityResult(
+                    ActivityResultContracts.RequestPermission()
+                ) {
+                    if (it) {
+                        Toast.makeText(context, "Permission Granted", Toast.LENGTH_SHORT).show()
+                        cameraLauncher.launch(uri)
+                    } else {
+                        Toast.makeText(context, "Permission Denied", Toast.LENGTH_SHORT).show()
+                    }
+                }
                 SourceCameraScreen(
                     imageUri = uiState.camaraUri,
+                    onOpenCameraClicked = {
+                        val permissionCheckResult =
+                            ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA)
+                        if (permissionCheckResult == PackageManager.PERMISSION_GRANTED) {
+                            cameraLauncher.launch(uri)
+                        } else {
+                            permissionLauncher.launch(Manifest.permission.CAMERA)
+                        }
+                    },
                     onNextButtonClicked = { navController.navigate(SmokeScreen.Result.name) },
                     onCancelButtonClicked = {
                         cancelAnalyseAndNavigateToStart(viewModel, navController)
                     },
-                    onPhotoShot = { viewModel.setCamaraImage(it) },
+                    onSaveButtonClicked = { if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                        viewModel.setCamaraImage(saveImage(context, decodeUri(uiState.camaraUri,context),"jpeg",Bitmap.CompressFormat.JPEG,100))
+                    }
+                    },
+                    onPhotoShot = { OnPhotoShot(uiState.camaraUri) },
                     modifier = Modifier.fillMaxHeight()
                 )
             }
             composable(route = SmokeScreen.Result.name) {
                 val context= LocalContext.current
                 ResultScreen(
-                    context = context,
-                    imageUri = if(uiState.source== FILE){
-                        uiState.fileUri
-                    }else{
-                        uiState.camaraUri
-                    },
                     onNextButtonClicked = {
 
                         var maxPollutionLevel=0
@@ -155,12 +221,79 @@ fun SmokeApp(
                     onCancelButtonClicked = {
                         cancelAnalyseAndNavigateToStart(viewModel, navController)
                     },
-                    onGetResult = {res->
-                        uiState.result=res
+                    onGetResult = {
+                        val imageUri= when (uiState.source) {
+                            FILE -> {
+                                uiState.fileUri
+                            }
+                            CAMARA -> {
+                                uiState.camaraUri
+                            }
+                            else -> {
+                                null
+                            }
+                        }
+                        if (imageUri != null) {
+                        if (imageUri.path?.isNotEmpty() == true) {
+                            val assetManager: AssetManager = context.assets
+                            val yolov5ncnn = YoloV5Ncnn()
+                            yolov5ncnn.Init(assetManager)
+                            val objects = yolov5ncnn.Detect(decodeUri(imageUri, context), false)
+                            val bms = showObjects(objects, decodeUri(imageUri, context))
+                            uiState.result=bms
+                            Column{
+                                Image(
+                                    painter = rememberAsyncImagePainter(bms.bms[0]),
+                                    contentDescription = null,
+                                    modifier = Modifier
+                                        .height(300.dp)
+                                        .width(300.dp)
+                                        .padding(dimensionResource(R.dimen.padding_medium))
+                                )
+                                for (i in 0 until bms.pers.size) {
+                                    Image(
+                                        painter = rememberAsyncImagePainter(bms.bms[i + 1]),
+                                        contentDescription = null,
+                                        modifier = Modifier
+                                            .width(300.dp)
+                                            .height(300.dp)
+                                    )
+                                    Text(
+                                        text = "该烟雾的污染程度为${getPollutionLevel(bms.pers[i])}级（仅供参考）",
+                                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                                    )
+                                }
+                                if (bms.pers.size == 0) {
+                                    Row(
+                                        modifier = Modifier
+                                            .align(Alignment.CenterHorizontally)
+                                            .padding(dimensionResource(R.dimen.padding_medium))
+                                    ) {
+                                        Text("没有检测到烟雾！")
+                                    }
+
+                                }
+                            }
+
+                        }
+                    }
                     },
                     modifier = Modifier.fillMaxHeight()
                 )
             }
+        }
+    }
+
+}
+@Composable
+private fun OnPhotoShot(imageUri:Uri?){
+    if (imageUri != null) {
+        if (imageUri.path?.isNotEmpty() == true) {
+            Image(
+                painter = rememberAsyncImagePainter(imageUri),
+                contentDescription = null,
+                modifier = Modifier.height(300.dp).height(300.dp)
+            )
         }
     }
 }

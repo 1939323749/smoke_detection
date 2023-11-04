@@ -9,4 +9,9 @@
     <string name="cancel">Cancel</string>
     <string name="share">Share</string>
     <string name="analyse_image">Analyse</string>
+    <string name="return_button">Return</string>
+    <string name="open_camera">Open Camera</string>
+    <string name="save">Save</string>
+    <string name="select_image">Select Image</string>
+    <string name="choose_image_source">Choose image source</string>
 </resources>

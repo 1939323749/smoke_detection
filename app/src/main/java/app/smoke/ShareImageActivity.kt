@@ -13,19 +13,21 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
 import app.smoke.common.shareResult
+import app.smoke.data.RecResult
 import coil.compose.rememberAsyncImagePainter
 import app.smoke.data.getPollutionLevel
 import app.smoke.ui.theme.SmokeTheme
 import com.tencent.yolov5ncnn.YoloV5Ncnn
 import com.tencent.yolov5ncnn.decodeUri
 import com.tencent.yolov5ncnn.showObjects
+import kotlin.math.max
 
 class ShareImageActivity : ComponentActivity() {
     private var sharedImageUri: Uri? = null
@@ -114,6 +116,12 @@ fun DisplayImage(uri: Uri){
                 yolov5ncnn.Init(assetManager)
                 val objects = yolov5ncnn.Detect(decodeUri(uri, context), false)
                 val bms = showObjects(objects, decodeUri(uri, context))
+                var maxPollutionLevel=0
+                if (bms.pers.size!=0){
+                    for(per in bms.pers){
+                        maxPollutionLevel= maxOf(getPollutionLevel(per),maxPollutionLevel)
+                    }
+                }
                 Image(
                     painter = rememberAsyncImagePainter(bms.bms[0]),
                     contentDescription = null,
@@ -138,7 +146,7 @@ fun DisplayImage(uri: Uri){
                     Button(
                         modifier = Modifier.weight(1f).padding(top = 30.dp),
                         onClick = {
-                            shareResult(context,uri,"test")
+                            shareResult(context,uri,"该烟雾的最大污染程度为${maxPollutionLevel}级")
                         }
                     ) {
                         Text("Share")

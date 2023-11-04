@@ -19,6 +19,5 @@ fun getPollutionLevel(per:Float):Int{
     } else if(per>=0.8&&per<1.0) {
         return 4
     }
-        //
     return 5
 }

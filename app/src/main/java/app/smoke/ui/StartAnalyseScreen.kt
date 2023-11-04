@@ -40,7 +40,7 @@ fun StartAnalyseScreen(
         ) {
             Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_medium)))
             Text(
-                text = "Choose image source",
+                text = stringResource(R.string.choose_image_source),
                 style = MaterialTheme.typography.headlineSmall
             )
             Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_small)))

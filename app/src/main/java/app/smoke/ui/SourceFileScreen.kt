@@ -25,18 +25,13 @@ import app.smoke.R
 @Composable
 fun SourceFileScreen(
     uri:Uri?,
-    onImageSelected: (Uri) -> Unit = {},
+    onSelectImageButtonClicked:()->Unit={},
+    onImageSelected: @Composable () -> Unit,
     onCancelButtonClicked: () -> Unit = {},
     onNextButtonClicked: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
-    var selectedValue by rememberSaveable { mutableStateOf("") }
-    val launcher = rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) {
-        if (it != null) {
-            onImageSelected(it)
-        }
-    }
-    val context = LocalContext.current
+
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.SpaceBetween
@@ -47,21 +42,17 @@ fun SourceFileScreen(
                 .align(Alignment.CenterHorizontally)
                 .verticalScroll(rememberScrollState())
         ) {
-            if (uri != null) {
-                Image(
-                    painter = rememberAsyncImagePainter(uri),
-                    contentDescription = null,
-                    modifier=Modifier.height(300.dp).width(300.dp)
-                )
-            }
-            Button(onClick = {
-                launcher.launch(
-                    PickVisualMediaRequest(
-                        mediaType = ActivityResultContracts.PickVisualMedia.ImageOnly
-                    )
-                )
-            }, modifier = Modifier.padding(dimensionResource(R.dimen.padding_medium))) {
-                Text("Select Image")
+            onImageSelected()
+            Row(
+                modifier=Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .padding(dimensionResource(R.dimen.padding_medium))
+            ) {
+                Button(
+                    onClick = onSelectImageButtonClicked
+                ){
+                    Text(stringResource(R.string.select_image))
+                }
             }
         }
         Row(
